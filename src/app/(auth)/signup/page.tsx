@@ -21,8 +21,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const registerSchema = z.object({
-  firstName: z.string().min(1, "Name is required"),
-  lastName: z.string().min(1, "Name is required"),
+  name: z.string().min(1, "Name is required"),
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
     .string()
@@ -35,8 +34,7 @@ export default function SignupPage() {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       password: "",
     },
@@ -66,21 +64,21 @@ export default function SignupPage() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>First Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
+              {/* <div className="grid grid-cols-2 gap-4"> */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* <FormField
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
@@ -93,7 +91,7 @@ export default function SignupPage() {
                     </FormItem>
                   )}
                 />
-              </div>
+              </div> */}
               <FormField
                 control={form.control}
                 name="email"

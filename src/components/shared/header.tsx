@@ -43,7 +43,7 @@ export default async function Header() {
           {/* <Button variant="secondary" size="icon" className="rounded-full"> */}
           {/* <CircleUser className="h-5 w-5" /> */}
           <div>
-            <Avatar className="rounded-md size-[38px] cursor-pointer">
+            <Avatar className="rounded-md size-[38px] cursor-pointer border">
               <AvatarImage
                 src={
                   session.user.image ||
