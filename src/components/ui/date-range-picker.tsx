@@ -18,8 +18,8 @@ export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2020, 0, 20),
-    to: addDays(new Date(2050, 0, 20), 20),
+    from: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+    to: addDays(new Date(), 20),
   });
 
   return (

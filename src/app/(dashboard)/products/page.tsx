@@ -20,6 +20,7 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ProductFilter } from "./_components/filter";
 
 export default async function ProductPage({
   searchParams,
@@ -49,7 +50,7 @@ export default async function ProductPage({
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="flex">
-            <Input placeholder="filter by name...." />
+            <ProductFilter />
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">
