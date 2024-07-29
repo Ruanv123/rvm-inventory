@@ -15,7 +15,7 @@ export default async function SettingsPage() {
   return (
     <div
       className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 h-full"
-      style={{ overflow: "hidden scroll" }}
+      // style={{ overflow: "hidden scroll" }}
     >
       <div className="flex flex-col gap-8">
         {/* <div className="flex flex-col gap-4">

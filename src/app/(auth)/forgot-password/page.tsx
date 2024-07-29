@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="flex items-center justify-center min-h-svh">
+    <main className="flex items-center justify-center min-h-dvh">
       <Card className="w-[450px]">
         <CardHeader>
           <CardTitle>Forgot Password</CardTitle>

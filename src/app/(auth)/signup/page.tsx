@@ -53,7 +53,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-svh max-h-svh">
+    <div className="flex items-center justify-center min-h-dvh max-h-dvh">
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Register</h1>
