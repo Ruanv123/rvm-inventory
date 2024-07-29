@@ -117,7 +117,7 @@ export default function LoginPage() {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/next.svg"
+          src="https://www.ascm.org/globalassets/ascm_website_assets/img/landing/im-01.jpg"
           alt="Image"
           width="1920"
           height="1080"
