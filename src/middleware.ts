@@ -1,16 +1,24 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-const publicRoutes = ["/signin", "/signup", "/forgot-password"];
+const publicRoutes = [
+  "/signin",
+  "/signup",
+  "/forgot-password",
+  "/forgot-password/",
+];
 
 export default auth((req) => {
+  console.log("teste", publicRoutes.includes(req.nextUrl.pathname));
   if (!req.auth && !publicRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.redirect(new URL("/signin", req.nextUrl.origin));
+    // return NextResponse.redirect(new URL("/signin", req.nextUrl.origin));
   }
 
   if (req.auth && publicRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
+
+  return NextResponse.next();
 });
 
 export const config = {

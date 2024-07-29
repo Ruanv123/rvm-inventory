@@ -4,6 +4,7 @@ import DropboxResetPasswordEmail from "@/components/mail/forgot-mail";
 import { signIn, signOut } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { render } from "@react-email/components";
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
@@ -32,11 +33,25 @@ export async function ResetPasswordEmail(to: string) {
       throw new Error("User not found");
     }
 
+    const token = randomUUID();
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { resetToken: token },
+    });
+
+    const url = `http://localhost:3000/forgot-password/${token}`;
+
     const { data, error } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: [to],
       subject: "Welcome to Resend!",
-      react: render(DropboxResetPasswordEmail({ userFirstname: user.name })),
+      html: render(
+        DropboxResetPasswordEmail({
+          userFirstname: user.name,
+          resetPasswordLink: url,
+        })
+      ),
     });
     console.log(data);
   } catch (error) {

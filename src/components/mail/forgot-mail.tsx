@@ -15,6 +15,7 @@ import * as React from "react";
 interface DropboxResetPasswordEmailProps {
   userFirstname?: string;
   resetPasswordLink?: string;
+  token?: string;
 }
 
 const baseUrl = process.env.VERCEL_URL
@@ -24,6 +25,7 @@ const baseUrl = process.env.VERCEL_URL
 export const DropboxResetPasswordEmail = ({
   userFirstname,
   resetPasswordLink,
+  token,
 }: DropboxResetPasswordEmailProps) => {
   return (
     <Html>
