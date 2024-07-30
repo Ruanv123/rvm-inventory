@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,6 +30,8 @@ const formSchema = z.object({
 });
 
 export function CreateCategoryModal({ children }: PropsWithChildren) {
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -39,13 +41,14 @@ export function CreateCategoryModal({ children }: PropsWithChildren) {
       await createCategory(data);
       toast.success("Category created successfully");
       form.reset();
+      setOpen(false);
     } catch (error) {
       toast.error("Category creation failed");
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
