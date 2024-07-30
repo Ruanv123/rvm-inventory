@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProfileForm } from "./_components/profile-form";
 import { auth } from "@/lib/auth";
+import { PasswordForm } from "./_components/password-form";
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -56,6 +57,7 @@ export default async function SettingsPage() {
           </Card>
         </div> */}
         <ProfileForm expires={session.expires} user={session.user} />
+        <PasswordForm />
 
         {/* <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">

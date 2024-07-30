@@ -5,12 +5,14 @@ import React from "react";
 import { usePathname } from "next/navigation";
 
 import {
+  ArrowRightLeft,
   Bell,
   Home,
   LineChart,
   Package,
   Package2,
   ShoppingCart,
+  Truck,
   Users,
 } from "lucide-react";
 import {
@@ -29,14 +31,24 @@ export const navItems = [
     icon: <Home className="h-4 w-4" />,
   },
   {
-    label: "Orders",
-    href: "/orders",
-    icon: <ShoppingCart className="h-4 w-4" />,
-  },
-  {
     label: "Products",
     href: "/products",
     icon: <Package className="h-4 w-4" />,
+  },
+  {
+    label: "Movimentations",
+    href: "/movimentations",
+    icon: <ArrowRightLeft className="h-4 w-4" />,
+  },
+  {
+    label: "Categories",
+    href: "/categories",
+    icon: <ShoppingCart className="h-4 w-4" />,
+  },
+  {
+    label: "Suppliers",
+    href: "/Suppliers",
+    icon: <Truck className="h-4 w-4" />,
   },
   {
     label: "Customers",

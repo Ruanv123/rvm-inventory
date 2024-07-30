@@ -44,9 +44,17 @@ export default function SignupPage() {
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     try {
-      await registerUser(values);
-      router.push("/signin");
+      await registerUser({
+        ...values,
+        organization: {
+          connect: {
+            id: 1,
+          },
+        },
+      });
       toast.success("Registration successful");
+      form.reset();
+      router.push("/signin");
     } catch (error) {
       toast.error("Registration failed");
     }

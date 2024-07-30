@@ -1,12 +1,19 @@
 import { Breadcrumb } from "@/components/shared/breadcrumb";
 import Header from "@/components/shared/header";
 import Sidebar from "@/components/shared/sidebar";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return redirect("/signin");
+  }
   return (
     <div className=" w-full h-dvh flex">
       <div className="lg:w-[280px] md:w-[220px]">

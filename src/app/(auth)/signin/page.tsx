@@ -37,6 +37,7 @@ export default function LoginPage() {
     try {
       await login(values.email, values.password);
       toast.success("Login successful");
+      form.reset();
     } catch (error) {
       toast.error("Login failed");
     }

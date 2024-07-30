@@ -17,6 +17,10 @@ export function Breadcrumb() {
 
   const items = pathname.split("/").filter((item) => item !== "");
 
+  if (items.length === 0) {
+    return null;
+  }
+
   return (
     <CnCrumb>
       <BreadcrumbList>
