@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -61,7 +62,9 @@ export default function CreateProductPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
-                    <Input {...field} />
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -72,7 +75,9 @@ export default function CreateProductPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
-                    <Textarea cols={10} rows={5} {...field} />
+                    <FormControl>
+                      <Textarea cols={10} rows={5} {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -83,7 +88,9 @@ export default function CreateProductPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
-                    <Input {...field} />
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -95,7 +102,9 @@ export default function CreateProductPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Price</FormLabel>
-                      <Input {...field} />
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -106,7 +115,9 @@ export default function CreateProductPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Stock Quantity</FormLabel>
-                      <Input type="number" {...field} />
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -118,7 +129,9 @@ export default function CreateProductPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>BarCode</FormLabel>
-                    <Input type="text" {...field} />
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

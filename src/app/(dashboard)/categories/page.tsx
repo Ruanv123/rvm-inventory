@@ -42,7 +42,6 @@ export default async function CategoriesPage({
     offset,
   });
 
-  console.log(data);
 
   return (
     <>
@@ -100,9 +99,9 @@ export default async function CategoriesPage({
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <button className="w-fit h-fit border p-1 rounded-md">
+                          <Button variant="outline" size="icon">
                             <EllipsisVertical size={18} />
-                          </button>
+                          </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
