@@ -6,29 +6,132 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  password  String
-  avatarUrl String?
+model Organization {
+  id       Int    @id @default(autoincrement())
+  name     String
+  imageUrl String
 
+  ownerId Int
+
+  users      User[]
+  products   Product[]
+  suppliers  Supplier[]
+  categories Category[]
+  Movement   Movement[]
+
+  status    Status   @default(ACTIVE)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  avatarUrl  String?
+  resetToken String?
+  role       UserRole @default(USER)
+
+  status         Status       @default(ACTIVE)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
 model Product {
   id            Int    @id @default(autoincrement())
-  imageUrl      String
   name          String
   description   String
+  barCode       String @unique
+  imageUrl      String
   price         Float
   stockQuantity Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  supplierId     Int
+  categoryId     Int
+  organizationId Int
+
+  Category  Category   @relation(fields: [categoryId], references: [id])
+  Supplier  Supplier   @relation(fields: [supplierId], references: [id])
+  movements Movement[]
+
+  status       Status       @default(ACTIVE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  Organization Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Category {
+  id     Int    @id @default(autoincrement())
+  name   String
+  status Status @default(ACTIVE)
+
+  products       Product[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
+}
+
+model Supplier {
+  id      Int      @id @default(autoincrement())
+  name    String
+  contact String[]
+  address String?
+  website String?
+
+  products Product[]
+
+  status         Status       @default(ACTIVE)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
+}
+
+model Movement {
+  id        Int          @id @default(autoincrement())
+  quantity  Int
+  type      MovementType
+  reason    String?
+  date      DateTime     @default(now())
+  Product   Product      @relation(fields: [productId], references: [id])
+  productId Int
+
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+}
+
+model Notification {
+  id        Int                @id @default(autoincrement())
+  message   String
+  status    NotificationStatus
+  createdAt DateTime           @default(now())
+}
+
+enum Status {
+  ACTIVE
+  DELETED
+}
+
+enum MovementType {
+  IN
+  OUT
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  USER
+}
+
+enum NotificationStatus {
+  READ
+  UNREAD
 }

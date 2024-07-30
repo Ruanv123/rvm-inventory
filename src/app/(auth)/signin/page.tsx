@@ -37,13 +37,14 @@ export default function LoginPage() {
     try {
       await login(values.email, values.password);
       toast.success("Login successful");
+      form.reset();
     } catch (error) {
       toast.error("Login failed");
     }
   }
 
   return (
-    <div className="w-full lg:grid lg:grid-cols-2 min-h-svh">
+    <div className="w-full lg:grid lg:grid-cols-2 min-h-dvh">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
@@ -117,7 +118,7 @@ export default function LoginPage() {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/next.svg"
+          src="https://www.ascm.org/globalassets/ascm_website_assets/img/landing/im-01.jpg"
           alt="Image"
           width="1920"
           height="1080"

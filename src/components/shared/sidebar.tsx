@@ -5,12 +5,14 @@ import React from "react";
 import { usePathname } from "next/navigation";
 
 import {
+  ArrowRightLeft,
   Bell,
   Home,
   LineChart,
   Package,
   Package2,
   ShoppingCart,
+  Truck,
   Users,
 } from "lucide-react";
 import {
@@ -29,14 +31,24 @@ export const navItems = [
     icon: <Home className="h-4 w-4" />,
   },
   {
-    label: "Orders",
-    href: "/orders",
-    icon: <ShoppingCart className="h-4 w-4" />,
-  },
-  {
     label: "Products",
     href: "/products",
     icon: <Package className="h-4 w-4" />,
+  },
+  {
+    label: "Movimentations",
+    href: "/movimentations",
+    icon: <ArrowRightLeft className="h-4 w-4" />,
+  },
+  {
+    label: "Categories",
+    href: "/categories",
+    icon: <ShoppingCart className="h-4 w-4" />,
+  },
+  {
+    label: "Suppliers",
+    href: "/Suppliers",
+    icon: <Truck className="h-4 w-4" />,
   },
   {
     label: "Customers",
@@ -54,7 +66,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden border-r bg-muted/40 md:block">
+    <aside className="hidden border-r bg-muted/40 md:block h-full">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">

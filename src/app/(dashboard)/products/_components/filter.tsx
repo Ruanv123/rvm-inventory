@@ -4,25 +4,29 @@ import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {useDebouncedCallback} from 'use-debounce'
 
 export function ProductFilter() {
-  const [value, setValue] = useState("");
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const debouncedSearch = useDebounce(value);
 
-  useEffect(() => {
+  const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set("query", debouncedSearch);
+    if (term) {
+      params.set("query", term);
+    } else {
+      params.delete("query");
+    }
+
     router.replace(`${pathname}?${params.toString()}`);
-  }, [pathname, router, searchParams, debouncedSearch]);
+  }, 300)
 
   return (
     <Input
       placeholder="filter by name...."
-      onChange={(e) => setValue(e.target.value)}
-      value={value}
+      onChange={(e) => handleSearch(e.target.value)}
+      defaultValue={searchParams.get("query") || ""}
     />
   );
 }

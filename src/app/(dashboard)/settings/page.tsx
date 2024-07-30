@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProfileForm } from "./_components/profile-form";
 import { auth } from "@/lib/auth";
+import { PasswordForm } from "./_components/password-form";
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -15,7 +16,7 @@ export default async function SettingsPage() {
   return (
     <div
       className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 h-full"
-      style={{ overflow: "hidden scroll" }}
+      // style={{ overflow: "hidden scroll" }}
     >
       <div className="flex flex-col gap-8">
         {/* <div className="flex flex-col gap-4">
@@ -56,6 +57,7 @@ export default async function SettingsPage() {
           </Card>
         </div> */}
         <ProfileForm expires={session.expires} user={session.user} />
+        <PasswordForm />
 
         {/* <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">

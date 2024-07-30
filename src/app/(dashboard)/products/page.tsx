@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -17,10 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductFilter } from "./_components/filter";
+import { DeleteButton } from "./_components/deleteButton";
+import { Badge } from "@/components/ui/badge";
 
 export default async function ProductPage({
   searchParams,
@@ -36,14 +37,23 @@ export default async function ProductPage({
   const limit = Number(searchParams?.limit) || 7;
   const offset = (currentPage - 1) * limit;
 
-  const { data, totalPages } = await getProducts({ search, limit, offset });
+  const { data, totalCount, totalPages } = await getProducts({
+    search,
+    limit,
+    offset,
+  });
 
   return (
     <>
       <div className="flex items-center justify-between w-full">
         <h1 className="text-lg font-semibold md:text-2xl">Products</h1>
         <Link href="/products/create">
-          <Button>Add Product</Button>
+          <Button size="sm" className="h-7 gap-1">
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Add Product
+            </span>
+          </Button>
         </Link>
       </div>
 
@@ -59,6 +69,7 @@ export default async function ProductPage({
                 <TableRow>
                   <TableHead>Image</TableHead>
                   <TableHead>Name</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead className="w-[100px]">In Stock</TableHead>
@@ -78,6 +89,15 @@ export default async function ProductPage({
                       />
                     </TableCell>
                     <TableCell className="w-[250px]">{product.name}</TableCell>
+                    <TableCell className="w-[100px]">
+                      {product.status === "ACTIVE" ? (
+                        <Badge variant={"outline"} className="border-green-300">
+                          Active
+                        </Badge>
+                      ) : (
+                        <Badge variant={"destructive"}>Deleted</Badge>
+                      )}
+                    </TableCell>
                     <TableCell>{product.description}</TableCell>
                     <TableCell>${product.price}</TableCell>
                     <TableCell>{product.stockQuantity}</TableCell>
@@ -90,11 +110,12 @@ export default async function ProductPage({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DeleteButton id={product.id}>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DeleteButton>
                           <DropdownMenuItem>View</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                      <button></button>
                     </TableCell>
                   </TableRow>
                 ))}
