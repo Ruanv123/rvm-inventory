@@ -5,15 +5,21 @@ const publicRoutes = [
   "/signin",
   "/signup",
   "/forgot-password",
-  "/forgot-password/",
+  new RegExp("^/forgot-password/.*$"),
 ];
 
 export default auth((req) => {
-  if (!req.auth && !publicRoutes.includes(req.nextUrl.pathname)) {
+  const path = req.nextUrl.pathname;
+
+  const isPublicRoute = publicRoutes.some((route) => 
+    typeof route === "string" ? route === path : route.test(path)
+  );
+
+  if (!req.auth && !isPublicRoute) {
     return NextResponse.redirect(new URL("/signin", req.nextUrl.origin));
   }
 
-  if (req.auth && publicRoutes.includes(req.nextUrl.pathname)) {
+  if (req.auth && isPublicRoute) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 });
