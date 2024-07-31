@@ -20,6 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DeleteSupplierButton } from "./_components/deleteButton";
 
 export default async function SuppliersPage({
   searchParams,
@@ -105,7 +106,9 @@ export default async function SuppliersPage({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DeleteSupplierButton id={supplier.id}>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DeleteSupplierButton>
                           <DropdownMenuItem>View</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

@@ -11,7 +11,7 @@ const publicRoutes = [
 export default auth((req) => {
   const path = req.nextUrl.pathname;
 
-  const isPublicRoute = publicRoutes.some((route) => 
+  const isPublicRoute = publicRoutes.some((route) =>
     typeof route === "string" ? route === path : route.test(path)
   );
 
@@ -25,7 +25,9 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
 };
 
 // export const config = {

@@ -10,6 +10,13 @@ interface GetSuppliersProps {
   limit?: number;
 }
 
+interface createSupplierProps {
+  name: string;
+  address?: string | undefined;
+  website?: string | undefined;
+  contacts: { value: string }[];
+}
+
 export async function getSuppliers({
   search,
   limit = 10,
@@ -40,13 +47,6 @@ export async function getSuppliers({
   return { data, totalCount, totalPages };
 }
 
-interface createSupplierProps {
-  name: string;
-  address?: string | undefined;
-  website?: string | undefined;
-  contacts: { value: string }[];
-}
-
 export async function createSupplier(data: createSupplierProps) {
   const session = await auth();
   if (!session) return;
@@ -61,6 +61,15 @@ export async function createSupplier(data: createSupplierProps) {
     },
   });
 
+  revalidatePath("/suppliers");
+  return supplier;
+}
+
+export async function deleteSupplier(id: number) {
+  const supplier = await prisma.supplier.update({
+    where: { id },
+    data: { status: "DELETED" },
+  });
   revalidatePath("/suppliers");
   return supplier;
 }

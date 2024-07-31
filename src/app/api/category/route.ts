@@ -8,6 +8,7 @@ export async function GET() {
 
   const data = await prisma.category.findMany({
     where: { organizationId: session?.user.organizationId, status: "ACTIVE" },
+    orderBy: { name: "asc" },
   });
 
   return NextResponse.json({ data });

@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import { EllipsisVertical, PlusCircle } from "lucide-react";
 import { SeachFilter } from "../products/_components/filter";
 import { CreateCategoryModal } from "./_components/create-category-modal";
+import { DeleteCategoryButton } from "./_components/deleteButton";
 
 export default async function CategoriesPage({
   searchParams,
@@ -104,9 +105,9 @@ export default async function CategoriesPage({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
-                          {/* <DeleteButton id={product.id}> */}
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
-                          {/* </DeleteButton> */}
+                          <DeleteCategoryButton id={category.id}>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DeleteCategoryButton>
                           <DropdownMenuItem>View</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

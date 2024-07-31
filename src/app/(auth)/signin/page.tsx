@@ -102,9 +102,9 @@ export default function LoginPage() {
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                <Button variant="outline" type="button" className="w-full">
+                {/* <Button variant="outline" type="button" className="w-full">
                   Login with Google
-                </Button>
+                </Button> */}
               </div>
             </form>
           </Form>
@@ -118,7 +118,7 @@ export default function LoginPage() {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="https://www.ascm.org/globalassets/ascm_website_assets/img/landing/im-01.jpg"
+          src="/login-2.jpg"
           alt="Image"
           width="1920"
           height="1080"
