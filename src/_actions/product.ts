@@ -41,7 +41,18 @@ export async function getProducts({
   return { data, totalCount, totalPages };
 }
 
-export async function createProduct(data: Prisma.ProductCreateInput) {
+interface createProductProps {
+  imageUrl: string;
+  name: string;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  barCode: string;
+  categoryId: string;
+  supplierId: string;
+}
+
+export async function createProduct(data: createProductProps) {
   const session = await auth();
   if (!session) return;
 
@@ -51,14 +62,14 @@ export async function createProduct(data: Prisma.ProductCreateInput) {
       description: data.description,
       imageUrl: data.imageUrl,
       price: data.price,
-      status: data.status,
       barCode: data.barCode,
       stockQuantity: data.stockQuantity,
       Organization: { connect: { id: session.user.organizationId } },
-      Category: data.Category,
-      Supplier: data.Supplier,
+      Category: { connect: { id: +data.categoryId } },
+      Supplier: { connect: { id: +data.supplierId } },
     },
   });
+
   revalidatePath("/products");
   return product;
 }

@@ -47,7 +47,7 @@ export const navItems = [
   },
   {
     label: "Suppliers",
-    href: "/Suppliers",
+    href: "/suppliers",
     icon: <Truck className="h-4 w-4" />,
   },
   {

@@ -1,8 +1,14 @@
 import { getCategories } from "@/_actions/category";
 import { EmptyTable } from "@/components/shared/empty-table";
-import { Button } from "@/components/ui/button";
-import { ProductFilter } from "../products/_components/filter";
 import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -11,16 +17,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EllipsisVertical, PlusCircle } from "lucide-react";
-import { CreateCategoryModal } from "./_components/create-category-modal";
 import { format } from "date-fns";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
+import { EllipsisVertical, PlusCircle } from "lucide-react";
+import { SeachFilter } from "../products/_components/filter";
+import { CreateCategoryModal } from "./_components/create-category-modal";
+import { DeleteCategoryButton } from "./_components/deleteButton";
 
 export default async function CategoriesPage({
   searchParams,
@@ -42,8 +43,6 @@ export default async function CategoriesPage({
     offset,
   });
 
-  console.log(data);
-
   return (
     <>
       <div className="flex items-center justify-between w-full">
@@ -61,8 +60,8 @@ export default async function CategoriesPage({
 
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
-          <div className="flex">
-            <ProductFilter />
+          <div className="flex justify-between items-start">
+            <SeachFilter />
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">
@@ -100,15 +99,15 @@ export default async function CategoriesPage({
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <button className="w-fit h-fit border p-1 rounded-md">
+                          <Button variant="outline" size="icon">
                             <EllipsisVertical size={18} />
-                          </button>
+                          </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
-                          {/* <DeleteButton id={product.id}> */}
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
-                          {/* </DeleteButton> */}
+                          <DeleteCategoryButton id={category.id}>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DeleteCategoryButton>
                           <DropdownMenuItem>View</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

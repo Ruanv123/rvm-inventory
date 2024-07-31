@@ -1,6 +1,7 @@
 import { getProducts } from "@/_actions/product";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,9 +20,8 @@ import {
 import { EllipsisVertical, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ProductFilter } from "./_components/filter";
 import { DeleteButton } from "./_components/deleteButton";
-import { Badge } from "@/components/ui/badge";
+import { SeachFilter } from "./_components/filter";
 
 export default async function ProductPage({
   searchParams,
@@ -30,6 +30,7 @@ export default async function ProductPage({
     query?: string;
     page?: string;
     limit?: string;
+    status?: string;
   };
 }) {
   const search = searchParams?.query || "";
@@ -60,7 +61,7 @@ export default async function ProductPage({
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="flex">
-            <ProductFilter />
+            <SeachFilter />
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">
@@ -98,15 +99,17 @@ export default async function ProductPage({
                         <Badge variant={"destructive"}>Deleted</Badge>
                       )}
                     </TableCell>
-                    <TableCell>{product.description}</TableCell>
+                    <TableCell className="truncate">
+                      {product.description}
+                    </TableCell>
                     <TableCell>${product.price}</TableCell>
                     <TableCell>{product.stockQuantity}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <button className="w-fit h-fit border p-1 rounded-md">
+                          <Button variant="outline" size="icon">
                             <EllipsisVertical size={18} />
-                          </button>
+                          </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem>Edit</DropdownMenuItem>

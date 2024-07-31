@@ -8,12 +8,6 @@ const nextConfig = {
         port: "",
         pathname: "/**/**",
       },
-      {
-        protocol: "https",
-        hostname: "www.ascm.org",
-        port: "",
-        pathname: "/**/**",
-      },
     ],
   },
 };

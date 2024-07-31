@@ -25,6 +25,7 @@ export const logout = async () => {
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// todo: refactor this
 export async function ResetPasswordEmail(to: string) {
   try {
     const user = await prisma.user.findUnique({ where: { email: to } });
