@@ -1,10 +1,14 @@
 import { getSuppliers } from "@/_actions/supplier";
 import { EmptyTable } from "@/components/shared/empty-table";
-import { Button } from "@/components/ui/button";
-import { EllipsisVertical, PlusCircle } from "lucide-react";
-import Link from "next/link";
-import { SeachFilter } from "../products/_components/filter";
 import Pagination from "@/components/shared/pagination";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -13,13 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical, PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { DeleteSupplierButton } from "./_components/deleteButton";
 
 export default async function SuppliersPage({
@@ -60,7 +59,6 @@ export default async function SuppliersPage({
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="flex">
-            <SeachFilter />
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">

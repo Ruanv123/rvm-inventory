@@ -1,9 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/useDebounce";
+import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 export function SeachFilter() {
@@ -23,11 +22,15 @@ export function SeachFilter() {
   }, 300);
 
   return (
-    <Input
-      placeholder="filter by name...."
-      onChange={(e) => handleSearch(e.target.value)}
-      defaultValue={searchParams.get("query") || ""}
-      className="max-w-[350px] md:max-w-[650px]"
-    />
+    <div className="relative">
+      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input
+        type="text"
+        placeholder="Search products..."
+        className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+        onChange={(e) => handleSearch(e.target.value)}
+        defaultValue={searchParams.get("query") || ""}
+      />
+    </div>
   );
 }

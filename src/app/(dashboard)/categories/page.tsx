@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import { EllipsisVertical, PlusCircle } from "lucide-react";
-import { SeachFilter } from "../products/_components/filter";
 import { CreateCategoryModal } from "./_components/create-category-modal";
 import { DeleteCategoryButton } from "./_components/deleteButton";
 
@@ -61,7 +60,6 @@ export default async function CategoriesPage({
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="flex justify-between items-start">
-            <SeachFilter />
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">

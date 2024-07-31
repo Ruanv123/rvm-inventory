@@ -17,6 +17,7 @@ import MobileNav from "./mobile-nav";
 import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { SeachFilter } from "./filter";
 
 export default async function Header() {
   const session = await auth();
@@ -30,14 +31,7 @@ export default async function Header() {
       <MobileNav />
       <div className="w-full flex-1">
         <form>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-            />
-          </div>
+          <SeachFilter />
         </form>
       </div>
       <ModeToggle />
