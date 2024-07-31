@@ -6,7 +6,7 @@ export async function GET() {
   const session = await auth();
   if (!session) NextResponse.json({ error: "Unauthorized" });
 
-  const data = await prisma.category.findMany({
+  const data = await prisma.supplier.findMany({
     where: { organizationId: session?.user.organizationId, status: "ACTIVE" },
   });
 

@@ -10,15 +10,13 @@ import {
 import { SelectProps } from "@radix-ui/react-select";
 import { useEffect, useState } from "react";
 
-interface Props {}
-
-export function SelectCategory({ onValueChange, defaultValue }: SelectProps) {
-  const [categories, setCategories] = useState<{ id: number; name: string }[]>(
+export function SelectSuppliers({ onValueChange, defaultValue }: SelectProps) {
+  const [suppliers, setCategories] = useState<{ id: number; name: string }[]>(
     []
   );
 
   useEffect(() => {
-    fetch("/api/category")
+    fetch("/api/supplier")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data.data);
@@ -29,11 +27,11 @@ export function SelectCategory({ onValueChange, defaultValue }: SelectProps) {
     <Select onValueChange={onValueChange} defaultValue={defaultValue}>
       <FormControl>
         <SelectTrigger>
-          <SelectValue placeholder="select category" />
+          <SelectValue placeholder="select supplier" />
         </SelectTrigger>
       </FormControl>
       <SelectContent>
-        {categories.map((crr, idx) => (
+        {suppliers.map((crr, idx) => (
           <SelectItem value={String(crr.id)} key={idx}>
             {crr.name}
           </SelectItem>

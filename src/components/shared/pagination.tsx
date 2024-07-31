@@ -30,6 +30,10 @@ export default function Pagination({ currentPage, totalPages }: Props) {
     router.replace(`${pathname}?${params.toString()}`);
   }
 
+  if (totalPages == 1) {
+    return null;
+  }
+
   function renderPaginationItems() {
     const items = [];
 
@@ -100,7 +104,7 @@ export default function Pagination({ currentPage, totalPages }: Props) {
   }
 
   return (
-    <ShadcnPagination>
+    <ShadcnPagination className="w-full">
       <PaginationContent>{renderPaginationItems()}</PaginationContent>
     </ShadcnPagination>
   );
