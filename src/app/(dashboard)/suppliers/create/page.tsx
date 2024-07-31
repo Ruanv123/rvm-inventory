@@ -58,7 +58,7 @@ export default function CreateSupplier() {
   return (
     <>
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Create Product</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">Create Supplier</h1>
       </div>
       <Card>
         <CardContent>

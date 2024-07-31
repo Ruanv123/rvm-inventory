@@ -17,7 +17,7 @@ import MobileNav from "./mobile-nav";
 import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { SeachFilter } from "@/app/(dashboard)/products/_components/filter";
+import { SeachFilter } from "./filter";
 
 export default async function Header() {
   const session = await auth();

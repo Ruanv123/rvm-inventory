@@ -60,7 +60,6 @@ export default async function CategoriesPage({
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="flex justify-between items-start">
-            {/* <SeachFilter /> */}
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
           <div className="overflow-hidden rounded-md border">
