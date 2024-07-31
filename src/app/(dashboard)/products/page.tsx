@@ -79,7 +79,7 @@ export default async function ProductPage({
                 {data.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>
-                      <Image
+                      <img
                         src={product.imageUrl}
                         alt={product.name}
                         width="64"
