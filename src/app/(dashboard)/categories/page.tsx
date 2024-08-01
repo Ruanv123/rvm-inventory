@@ -33,7 +33,7 @@ export default async function CategoriesPage({
 }) {
   const search = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const limit = Number(searchParams?.limit) || 7;
+  const limit = Number(searchParams?.limit) || 10;
   const offset = (currentPage - 1) * limit;
 
   const { data, totalPages } = await getCategories({

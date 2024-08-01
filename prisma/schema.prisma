@@ -49,7 +49,7 @@ model Product {
   name          String
   description   String
   barCode       String @unique
-  imageUrl      String
+  imageUrl      String?
   price         Float
   stockQuantity Int
 

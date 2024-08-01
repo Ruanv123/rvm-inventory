@@ -1,6 +1,7 @@
 "use client";
 
 import { createSupplier } from "@/_actions/supplier";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -16,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
+import { useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -32,6 +34,7 @@ const formSchema = z.object({
 });
 
 export default function CreateSupplier() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,9 +49,11 @@ export default function CreateSupplier() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createSupplier(values);
-      toast.success("Supplier created successfully");
-      form.reset();
+      startTransition(async () => {
+        await createSupplier(values);
+        toast.success("Supplier created successfully");
+        form.reset();
+      });
     } catch (error) {
       console.log(error);
       toast.error("Failed to create supplier");
@@ -151,7 +156,9 @@ export default function CreateSupplier() {
                 <Button type="button" variant="secondary">
                   Cancel
                 </Button>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? <Loader /> : "Submit"}
+                </Button>
               </div>
             </form>
           </Form>

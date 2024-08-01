@@ -5,10 +5,12 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     const session = await auth();
-    if (!session) NextResponse.json({ error: "Unauthorized" });
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const data = await prisma.category.findMany({
-      where: { organizationId: session?.user.organizationId, status: "ACTIVE" },
+    const data = await prisma.product.findMany({
+      where: { organizationId: session.user.organizationId, status: "ACTIVE" },
       orderBy: { name: "asc" },
     });
 

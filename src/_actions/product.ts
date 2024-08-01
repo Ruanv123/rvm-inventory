@@ -42,7 +42,7 @@ export async function getProducts({
 }
 
 interface createProductProps {
-  imageUrl: string;
+  imageUrl?: string;
   name: string;
   description: string;
   price: number;

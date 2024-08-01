@@ -2,6 +2,7 @@
 
 import { logout } from "@/_actions/login";
 import { updateUser } from "@/_actions/user";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -22,6 +23,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Prisma, UserRole } from "@prisma/client";
 import { type Session } from "next-auth";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -34,8 +36,8 @@ const formSchema = z.object({
 });
 
 export function ProfileForm(session: Session) {
+  const [isPending, startTransition] = useTransition();
   const user = session.user;
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,11 +50,13 @@ export function ProfileForm(session: Session) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const { role, ...valuesWithoutRole } = values;
-      await updateUser(valuesWithoutRole);
+      startTransition(async () => {
+        const { role, ...valuesWithoutRole } = values;
+        await updateUser(valuesWithoutRole);
 
-      toast.success("Profile updated successfully");
-      await logout();
+        toast.success("Profile updated successfully");
+        await logout();
+      });
     } catch (error) {
       toast.error("Failed to update profile");
     }
@@ -146,8 +150,8 @@ export function ProfileForm(session: Session) {
                 )}
               />
 
-              <Button className="ml-auto" type="submit">
-                Save
+              <Button className="ml-auto" type="submit" disabled={isPending}>
+                {isPending ? <Loader /> : "Save"}
               </Button>
             </form>
           </Form>

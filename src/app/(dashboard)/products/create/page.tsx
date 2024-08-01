@@ -19,9 +19,11 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { SelectCategory } from "../_components/select-category";
 import { SelectSuppliers } from "../_components/select-suppliers";
+import { useTransition } from "react";
+import { Loader } from "@/components/shared/loader";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(1, "Image URL is required"),
+  imageUrl: z.string().min(1, "Image URL is required").optional(),
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
   price: z.string().transform((val) => parseFloat(val)),
@@ -35,34 +37,27 @@ const formSchema = z.object({
 });
 
 export default function CreateProductPage() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      imageUrl: "",
-      name: "",
-      description: "",
-      barCode: "",
-      categoryId: undefined,
-      supplierId: undefined,
-      price: undefined,
-      stockQuantity: undefined,
-    },
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      await createProduct(data);
-      form.reset({
-        imageUrl: "",
-        name: "",
-        description: "",
-        barCode: "",
-        categoryId: "",
-        supplierId: "",
-        price: undefined,
-        stockQuantity: undefined,
+      startTransition(async () => {
+        await createProduct(data);
+        form.reset({
+          imageUrl: "",
+          name: "",
+          description: "",
+          barCode: "",
+          categoryId: "",
+          supplierId: "",
+          price: undefined,
+          stockQuantity: undefined,
+        });
+        toast.success("Product created successfully");
       });
-      toast.success("Product created successfully");
     } catch (error) {
       toast.error("Product creation failed");
     }
@@ -191,7 +186,9 @@ export default function CreateProductPage() {
                 <Button type="button" variant="secondary">
                   Cancel
                 </Button>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? <Loader /> : "Submit"}
+                </Button>
               </div>
             </form>
           </Form>

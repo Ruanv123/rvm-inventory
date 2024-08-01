@@ -1,6 +1,7 @@
 "use client";
 
 import { createCategory } from "@/_actions/category";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,6 +31,7 @@ const formSchema = z.object({
 });
 
 export function CreateCategoryModal({ children }: PropsWithChildren) {
+  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,10 +40,12 @@ export function CreateCategoryModal({ children }: PropsWithChildren) {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      await createCategory(data);
-      toast.success("Category created successfully");
-      form.reset();
-      setOpen(false);
+      startTransition(async () => {
+        await createCategory(data);
+        toast.success("Category created successfully");
+        form.reset();
+        setOpen(false);
+      });
     } catch (error) {
       toast.error("Category creation failed");
     }
@@ -72,7 +76,7 @@ export function CreateCategoryModal({ children }: PropsWithChildren) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Create</Button>
+            <Button type="submit">{isPending ? <Loader /> : "Create"}</Button>
           </form>
         </Form>
       </DialogContent>

@@ -1,6 +1,7 @@
 "use client";
 
 import { ResetPasswordToken } from "@/_actions/reset-password";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -35,6 +37,7 @@ export default function ForgotPasswordTokenPage({
 }: {
   params: { token: string };
 }) {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,10 +50,12 @@ export default function ForgotPasswordTokenPage({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await ResetPasswordToken(token, values.password);
-      form.reset({ confirmPassword: "", password: "" });
-      toast.success("Password reset successfully");
-      router.push("/signin");
+      startTransition(async () => {
+        await ResetPasswordToken(token, values.password);
+        form.reset({ confirmPassword: "", password: "" });
+        toast.success("Password reset successfully");
+        router.push("/signin");
+      });
     } catch (error) {
       toast.error("Failed to reset password");
     }
@@ -99,7 +104,7 @@ export default function ForgotPasswordTokenPage({
             />
 
             <Button type="submit" className="mt-2">
-              Reset Password
+              {isPending ? <Loader /> : "Reset Password"}
             </Button>
           </form>
         </Form>

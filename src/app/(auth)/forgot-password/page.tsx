@@ -1,6 +1,7 @@
 "use client";
 
 import { ResetPasswordEmail } from "@/_actions/reset-password";
+import { Loader } from "@/components/shared/loader";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,6 +26,7 @@ const formSchema = z.object({
 });
 
 export default function ForgotPasswordPage() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,9 +36,11 @@ export default function ForgotPasswordPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await ResetPasswordEmail(values.email);
-      toast.success("Email sent");
-      form.reset({ email: "" });
+      startTransition(async () => {
+        await ResetPasswordEmail(values.email);
+        toast.success("Email sent");
+        form.reset({ email: "" });
+      });
     } catch (error) {
       console.log(error);
       toast.error("Failed to send email");
@@ -82,8 +87,8 @@ export default function ForgotPasswordPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Send Link
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  {isPending ? <Loader /> : 'Send Link'}
                 </Button>
               </div>
             </form>
