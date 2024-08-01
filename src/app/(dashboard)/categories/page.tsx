@@ -117,7 +117,7 @@ export default async function CategoriesPage({
           </div>
         </section>
       ) : (
-        <EmptyTable name="Categorie" buttonLink="" description="" title="" />
+        <EmptyTable name="Categorie" buttonLink="" />
       )}
     </>
   );

@@ -29,3 +29,15 @@ export async function updatePasswordLogged(data: string) {
     },
   });
 }
+
+export async function updateUser(data: Prisma.UserUpdateInput) {
+  const session = await auth();
+  if (!session?.user) return;
+
+  const user = await prisma.user.update({
+    where: { id: Number(session.user.id) },
+    data: data,
+  });
+
+  return user;
+}

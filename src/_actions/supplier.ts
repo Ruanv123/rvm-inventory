@@ -30,6 +30,22 @@ export async function getSuppliers({
       status: "ACTIVE",
       organizationId: session?.user.organizationId,
     },
+    select: {
+      _count: {
+        select: {
+          products: true,
+        },
+      },
+      address: true,
+      contact: true,
+      createdAt: true,
+      id: true,
+      name: true,
+      organizationId: true,
+      updatedAt: true,
+      website: true,
+      status: true,
+    },
     skip: offset,
     take: limit,
   });

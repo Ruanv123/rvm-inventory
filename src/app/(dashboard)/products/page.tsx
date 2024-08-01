@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { getProducts } from "@/_actions/product";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
@@ -66,6 +67,7 @@ export default async function ProductPage({
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>#</TableHead>
                   <TableHead>Image</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Status</TableHead>
@@ -78,6 +80,7 @@ export default async function ProductPage({
               <TableBody>
                 {data.map((product) => (
                   <TableRow key={product.id}>
+                    <TableCell>{product.id}</TableCell>
                     <TableCell>
                       <img
                         src={product.imageUrl}
@@ -125,12 +128,7 @@ export default async function ProductPage({
           </div>
         </section>
       ) : (
-        <EmptyTable
-          name="Product"
-          buttonLink="/products/create"
-          description=""
-          title=""
-        />
+        <EmptyTable name="Product" buttonLink="/products/create" />
       )}
     </>
   );
