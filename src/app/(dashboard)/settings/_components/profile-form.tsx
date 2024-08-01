@@ -1,5 +1,7 @@
 "use client";
 
+import { logout } from "@/_actions/login";
+import { updateUser } from "@/_actions/user";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -10,29 +12,50 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  SelectItem,
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Prisma, UserRole } from "@prisma/client";
 import { type Session } from "next-auth";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").optional(),
   imageUrl: z.string().url("Invalid image URL").optional(),
   email: z.string().email("Invalid email").optional(),
+  role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MANAGER]).optional(),
 });
 
 export function ProfileForm(session: Session) {
   const user = session.user;
 
   const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user?.name || "",
-      imageUrl: user?.image || "",
-      email: user?.email || "",
+      role: user?.role,
+      email: undefined,
+      imageUrl: undefined,
+      name: undefined,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const { role, ...valuesWithoutRole } = values;
+      await updateUser(valuesWithoutRole);
+
+      toast.success("Profile updated successfully");
+      await logout();
+    } catch (error) {
+      toast.error("Failed to update profile");
+    }
   }
 
   return (
@@ -54,7 +77,11 @@ export function ProfileForm(session: Session) {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input type="text" {...field} />
+                      <Input
+                        type="text"
+                        {...field}
+                        defaultValue={user?.name || undefined}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -66,7 +93,11 @@ export function ProfileForm(session: Session) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" {...field} />
+                      <Input
+                        type="email"
+                        {...field}
+                        defaultValue={user?.email || undefined}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -78,8 +109,39 @@ export function ProfileForm(session: Session) {
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
                     <FormControl>
-                      <Input type="text" {...field} />
+                      <Input
+                        type="text"
+                        {...field}
+                        defaultValue={user?.image || undefined}
+                      />
                     </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your role..." />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={UserRole.USER}>User</SelectItem>
+                        <SelectItem value={UserRole.MANAGER}>
+                          Manager
+                        </SelectItem>
+                        <SelectItem value={UserRole.ADMIN}>Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormItem>
                 )}
               />

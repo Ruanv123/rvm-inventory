@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EllipsisVertical, PlusCircle } from "lucide-react";
+import { EllipsisVertical, Info, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { DeleteSupplierButton } from "./_components/deleteButton";
 
@@ -65,7 +65,16 @@ export default async function SuppliersPage({
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>#</TableHead>
                   <TableHead>Name</TableHead>
+                  <TableHead>
+                    <span className="flex gap-1 items-center">
+                      PQ
+                      <span title="Number of products">
+                        <Info className="w-3.5 h3.5" />
+                      </span>
+                    </span>
+                  </TableHead>
                   <TableHead>Contacts</TableHead>
                   <TableHead>Addres</TableHead>
                   <TableHead>Website</TableHead>
@@ -76,7 +85,9 @@ export default async function SuppliersPage({
               <TableBody>
                 {data.map((supplier) => (
                   <TableRow key={supplier.id}>
+                    <TableCell>{supplier.id}</TableCell>
                     <TableCell>{supplier.name}</TableCell>
+                    <TableCell>{supplier._count.products}</TableCell>
                     <TableCell>
                       {supplier.contact.map((c, i) => (
                         <p key={i}>{c}</p>
@@ -118,12 +129,7 @@ export default async function SuppliersPage({
           </div>
         </section>
       ) : (
-        <EmptyTable
-          name="Supplier"
-          buttonLink="/suppliers/create"
-          description=""
-          title=""
-        />
+        <EmptyTable name="Supplier" buttonLink="/suppliers/create" />
       )}
     </>
   );

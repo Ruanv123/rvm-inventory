@@ -102,9 +102,6 @@ export default function LoginPage() {
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                {/* <Button variant="outline" type="button" className="w-full">
-                  Login with Google
-                </Button> */}
               </div>
             </form>
           </Form>

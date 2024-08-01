@@ -16,6 +16,7 @@ import { HomeSubscriptions } from "./_components/subscriptions";
 import { SalesCard } from "./_components/sales-card";
 import { ActiveNow } from "./_components/active-now";
 import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export default function Home() {
   return (
@@ -37,8 +38,14 @@ export default function Home() {
             </TabsTrigger>
           </TabsList>
           <div className="flex gap-2">
-            <DatePickerWithRange />
-            <Button>Download</Button>
+            {/* <DatePickerWithRange /> */}
+            <Button size="sm" className="gap-1">
+              {" "}
+              <Download className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Download
+              </span>
+            </Button>
           </div>
         </div>
         <TabsContent value="overview" className="space-y-4">
@@ -56,13 +63,13 @@ export default function Home() {
               <HomeSubscriptions />
             </Suspense>
             <Suspense
-              key={"subscriptions"}
+              key={"sales"}
               fallback={<Skeleton className="rounded-lg border w-full" />}
             >
               <SalesCard />
             </Suspense>
             <Suspense
-              key={"subscriptions"}
+              key={"activenow"}
               fallback={<Skeleton className="rounded-lg border w-full" />}
             >
               <ActiveNow />
