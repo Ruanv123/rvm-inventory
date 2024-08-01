@@ -12,7 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
-import { ArrowDown, ArrowDownUp, ArrowUp, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 export default async function MovimentationsPage({
   searchParams,
@@ -34,16 +35,19 @@ export default async function MovimentationsPage({
     limit,
     offset,
   });
+
   return (
     <>
       <div className="flex items-center justify-between w-full">
         <h1 className="text-lg font-semibold md:text-2xl">Movimentations</h1>
-        <Button size="sm" className="h-7 gap-1">
-          <PlusCircle className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Add Movimentation
-          </span>
-        </Button>
+        <Link href="/movimentations/create" prefetch={false}>
+          <Button size="sm" className="h-7 gap-1">
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Add Movimentation
+            </span>
+          </Button>
+        </Link>
       </div>
 
       <p>
@@ -63,8 +67,8 @@ export default async function MovimentationsPage({
                   <TableHead>#</TableHead>
                   <TableHead>Product</TableHead>
                   <TableHead>Quantity</TableHead>
-                  <TableHead>Type</TableHead>
                   <TableHead>Reason</TableHead>
+                  <TableHead>Type</TableHead>
                   <TableHead>Date</TableHead>
                 </TableRow>
               </TableHeader>
@@ -74,10 +78,10 @@ export default async function MovimentationsPage({
                     <TableCell>{movimentation.id}</TableCell>
                     <TableCell>{movimentation.Product.name}</TableCell>
                     <TableCell>{movimentation.quantity}</TableCell>
+                    <TableCell>{movimentation.reason || "-"}</TableCell>
                     <TableCell>
                       <Badge variant={"outline"}>{movimentation.type}</Badge>
                     </TableCell>
-                    <TableCell>{movimentation.reason || "-"}</TableCell>
                     <TableCell>
                       {format(new Date(movimentation.date), "HH:mm dd-MM-yyyy")}
                     </TableCell>

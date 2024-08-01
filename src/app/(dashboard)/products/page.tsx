@@ -22,6 +22,7 @@ import { EllipsisVertical, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { DeleteButton } from "./_components/deleteButton";
+import { formatPrice } from "@/lib/utils";
 
 export default async function ProductPage({
   searchParams,
@@ -70,6 +71,7 @@ export default async function ProductPage({
                   <TableHead>#</TableHead>
                   <TableHead>Image</TableHead>
                   <TableHead>Name</TableHead>
+                  <TableHead>BarCode</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Price</TableHead>
@@ -83,7 +85,7 @@ export default async function ProductPage({
                     <TableCell>{product.id}</TableCell>
                     <TableCell>
                       <img
-                        src={product.imageUrl}
+                        src={product.imageUrl ||''}
                         alt={product.name}
                         width="64"
                         height="64"
@@ -91,6 +93,7 @@ export default async function ProductPage({
                       />
                     </TableCell>
                     <TableCell className="w-[250px]">{product.name}</TableCell>
+                    <TableCell className="w-[250px]">{product.barCode}</TableCell>
                     <TableCell className="w-[100px]">
                       {product.status === "ACTIVE" ? (
                         <Badge variant={"outline"} className="border-green-300">
@@ -103,7 +106,7 @@ export default async function ProductPage({
                     <TableCell className="truncate">
                       {product.description}
                     </TableCell>
-                    <TableCell>${product.price}</TableCell>
+                    <TableCell>{formatPrice(product.price)}</TableCell>
                     <TableCell>{product.stockQuantity}</TableCell>
                     <TableCell>
                       <DropdownMenu>

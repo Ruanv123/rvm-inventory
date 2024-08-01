@@ -2,10 +2,12 @@
 
 import DropboxResetPasswordEmail from "@/components/mail/forgot-mail";
 import prisma from "@/lib/db";
-import { resend } from "@/lib/mailer";
 import { render } from "@react-email/components";
 import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function ResetPasswordEmail(to: string) {
   try {
@@ -22,7 +24,7 @@ export async function ResetPasswordEmail(to: string) {
       data: { resetToken: token },
     });
 
-    const url = `${process.env.NEXT_PUBLIC_URL}/forgot-password/${token}`;
+    const url = `${process.env.NEXT_URL}/forgot-password/${token}`;
 
     const { data, error } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",

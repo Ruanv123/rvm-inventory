@@ -1,6 +1,7 @@
 "use client";
 
 import { registerUser } from "@/_actions/user";
+import { Loader } from "@/components/shared/loader";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
@@ -19,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -34,6 +36,7 @@ const registerSchema = z.object({
 });
 
 export default function SignupPage() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -47,17 +50,19 @@ export default function SignupPage() {
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     try {
-      await registerUser({
-        ...values,
-        organization: {
-          connect: {
-            id: 1,
+      startTransition(async () => {
+        await registerUser({
+          ...values,
+          organization: {
+            connect: {
+              id: 1,
+            },
           },
-        },
+        });
+        toast.success("Registration successful");
+        form.reset();
+        router.push("/signin");
       });
-      toast.success("Registration successful");
-      form.reset();
-      router.push("/signin");
     } catch (error) {
       toast.error("Registration failed");
     }
@@ -65,7 +70,7 @@ export default function SignupPage() {
 
   return (
     <>
-      <div className="md:hidden">
+      <div className=" hidden md:hidden">
         <Image
           src="/examples/authentication-light.png"
           width={1280}
@@ -81,12 +86,12 @@ export default function SignupPage() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative mt-60 md:mt-0 h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/signin"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute top-4 md:right-8 md:top-8 hidden md:block"
           )}
         >
           Login
@@ -184,7 +189,7 @@ export default function SignupPage() {
                     )}
                   />
                   <Button type="submit" className="w-full">
-                    Register
+                    {isPending ? <Loader /> : "Create account"}
                   </Button>
                 </form>
               </Form>

@@ -1,6 +1,7 @@
 "use client";
 
 import { login } from "@/_actions/login";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +16,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -25,6 +27,7 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,9 +38,11 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await login(values.email, values.password);
-      toast.success("Login successful");
-      form.reset();
+      startTransition(async () => {
+        await login(values.email, values.password);
+        toast.success("Login successful");
+        form.reset();
+      });
     } catch (error) {
       toast.error("Login failed");
     }
@@ -99,8 +104,8 @@ export default function LoginPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
-                  Login
+                <Button disabled={isPending} type="submit" className="w-full">
+                  {isPending ? <Loader /> : "Login"}
                 </Button>
               </div>
             </form>

@@ -2,6 +2,7 @@
 
 import { logout } from "@/_actions/login";
 import { updatePasswordLogged } from "@/_actions/user";
+import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -32,16 +34,19 @@ const formSchema = z
   });
 
 export function PasswordForm() {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      await updatePasswordLogged(data.password);
-      toast.success("Password updated successfully");
-      form.reset();
-      await logout();
+      startTransition(async () => {
+        await updatePasswordLogged(data.password);
+        toast.success("Password updated successfully");
+        form.reset();
+        await logout();
+      });
     } catch (error) {
       toast.error("Failed to update password");
     }
@@ -81,7 +86,9 @@ export function PasswordForm() {
                   </FormItem>
                 )}
               />
-              <Button className="ml-auto">Update Password</Button>
+              <Button className="ml-auto" disabled={isPending}>
+                {isPending ? <Loader /> : "Update Password"}
+              </Button>
             </form>
           </Form>
         </CardContent>

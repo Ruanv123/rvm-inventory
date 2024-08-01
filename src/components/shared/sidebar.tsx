@@ -50,16 +50,16 @@ export const navItems = [
     href: "/suppliers",
     icon: <Truck className="h-4 w-4" />,
   },
-  {
-    label: "Customers",
-    href: "/users",
-    icon: <Users className="h-4 w-4" />,
-  },
-  {
-    label: "Analytics",
-    href: "/analytics",
-    icon: <LineChart className="h-4 w-4" />,
-  },
+  // {
+  //   label: "Customers",
+  //   href: "/users",
+  //   icon: <Users className="h-4 w-4" />,
+  // },
+  // {
+  //   label: "Analytics",
+  //   href: "/analytics",
+  //   icon: <LineChart className="h-4 w-4" />,
+  // },
 ];
 
 export default function Sidebar() {
