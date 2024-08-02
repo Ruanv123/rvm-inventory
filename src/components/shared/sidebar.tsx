@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 export const navItems = [
   {
@@ -50,20 +51,23 @@ export const navItems = [
     href: "/suppliers",
     icon: <Truck className="h-4 w-4" />,
   },
-  // {
-  //   label: "Customers",
-  //   href: "/users",
-  //   icon: <Users className="h-4 w-4" />,
-  // },
-  // {
-  //   label: "Analytics",
-  //   href: "/analytics",
-  //   icon: <LineChart className="h-4 w-4" />,
-  // },
+
+  {
+    label: "Analytics",
+    href: "/analytics",
+    icon: <LineChart className="h-4 w-4" />,
+  },
+  {
+    label: "Organizations",
+    href: "/admin/organization",
+    icon: <Users className="h-4 w-4" />,
+    role: "ADMIN",
+  },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   return (
     <aside className="hidden border-r bg-muted/40 md:block h-full">
@@ -80,18 +84,24 @@ export default function Sidebar() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {navItems.map((navItem) => (
-              <Link
-                key={navItem.label}
-                href={navItem.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
-                  pathname === navItem.href ? "bg-muted text-primary" : ""
-                }`}
-              >
-                {navItem.icon}
-                {navItem.label}
-              </Link>
-            ))}
+            {navItems.map((navItem) => {
+              /* verificacao para rotas privadas */
+              if (navItem.role && navItem.role !== session?.user.role)
+                return null;
+
+              return (
+                <Link
+                  key={navItem.label}
+                  href={navItem.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${
+                    pathname === navItem.href ? "bg-muted text-primary" : ""
+                  }`}
+                >
+                  {navItem.icon}
+                  {navItem.label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
         <div className="mt-auto p-4">

@@ -11,6 +11,17 @@ interface GetProductsProps {
   limit?: number;
 }
 
+interface createProductProps {
+  imageUrl?: string;
+  name: string;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  barCode: string;
+  categoryId: string;
+  supplierId: string;
+}
+
 export async function getProducts({
   search,
   limit = 10,
@@ -41,20 +52,20 @@ export async function getProducts({
   return { data, totalCount, totalPages };
 }
 
-interface createProductProps {
-  imageUrl?: string;
-  name: string;
-  description: string;
-  price: number;
-  stockQuantity: number;
-  barCode: string;
-  categoryId: string;
-  supplierId: string;
-}
-
 export async function createProduct(data: createProductProps) {
   const session = await auth();
   if (!session) return;
+
+  const exisitingProduct = await prisma.product.findUnique({
+    where: { barCode: data.barCode },
+  });
+
+  if (exisitingProduct) {
+    return {
+      status: 409,
+      message: "Product already exists with barCode.",
+    };
+  }
 
   const product = await prisma.product.create({
     data: {
@@ -71,7 +82,10 @@ export async function createProduct(data: createProductProps) {
   });
 
   revalidatePath("/products");
-  return product;
+  return {
+    status: 201,
+    message: "Product created successfully",
+  };
 }
 
 export async function deleteProduct(id: number) {

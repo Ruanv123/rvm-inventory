@@ -1,6 +1,7 @@
 "use client";
 
 import { createCategory } from "@/_actions/category";
+import { FormRequired } from "@/components/shared/form-required";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,14 +41,21 @@ export function CreateCategoryModal({ children }: PropsWithChildren) {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        await createCategory(data);
-        toast.success("Category created successfully");
-        form.reset();
-        setOpen(false);
+      startTransition(() => {
+        createCategory(data).then((res) => {
+          if (res?.status !== 201) {
+            toast.error(res?.message);
+          }
+
+          toast.success(res?.message);
+          form.reset({
+            name: "",
+          });
+          setOpen(false);
+        });
       });
     } catch (error) {
-      toast.error("Category creation failed");
+      toast.error("Category creation failed: " + error);
     }
   }
 
@@ -68,7 +76,9 @@ export function CreateCategoryModal({ children }: PropsWithChildren) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>
+                    Name <FormRequired />
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

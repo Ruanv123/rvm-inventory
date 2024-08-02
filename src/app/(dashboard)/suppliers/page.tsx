@@ -58,9 +58,6 @@ export default async function SuppliersPage({
 
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
-          <div className="flex">
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
-          </div>
           <div className="overflow-hidden rounded-md border">
             <Table>
               <TableHeader>
@@ -127,6 +124,11 @@ export default async function SuppliersPage({
               </TableBody>
             </Table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalCount}
+          />
         </section>
       ) : (
         <EmptyTable name="Supplier" buttonLink="/suppliers/create" />

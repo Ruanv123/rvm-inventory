@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { SelectProducts } from "../_components/select-products";
+import { FormRequired } from "@/components/shared/form-required";
 
 const formSchema = z.object({
   quantity: z.string().transform((val) => parseFloat(val)),
@@ -45,15 +46,19 @@ export default function CreateMovimentationPage() {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        console.log(data);
-        await createMovimentation(data);
-        toast.success("Movimentation created successfully");
-        form.reset({
-          quantity: undefined,
-          type: undefined,
-          reason: undefined,
-          productId: "none",
+      startTransition(() => {
+        createMovimentation(data).then((res) => {
+          if (res?.status !== 201) {
+            toast.error(res?.message);
+          }
+
+          toast.success(res?.message);
+          form.reset({
+            quantity: undefined,
+            type: undefined,
+            reason: undefined,
+            productId: "none",
+          });
         });
       });
     } catch (error) {
@@ -77,7 +82,9 @@ export default function CreateMovimentationPage() {
                 name="quantity"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Quantity</FormLabel>
+                    <FormLabel>
+                      Quantity <FormRequired />
+                    </FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
@@ -90,7 +97,9 @@ export default function CreateMovimentationPage() {
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>
+                      Type <FormRequired />
+                    </FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -126,7 +135,9 @@ export default function CreateMovimentationPage() {
                 name="productId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Product</FormLabel>
+                    <FormLabel>
+                      Product <FormRequired />
+                    </FormLabel>
 
                     <FormControl>
                       <SelectProducts

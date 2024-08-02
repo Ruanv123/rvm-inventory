@@ -14,7 +14,10 @@ export async function ResetPasswordEmail(to: string) {
     const user = await prisma.user.findUnique({ where: { email: to } });
 
     if (!user) {
-      throw new Error("User not found");
+      return {
+        status: 404,
+        message: "User not found",
+      };
     }
 
     const token = randomUUID();
@@ -38,25 +41,43 @@ export async function ResetPasswordEmail(to: string) {
       ),
     });
 
-    if (error) throw new Error("Failed to send email");
+    if (error) {
+      return { status: 500, message: "Internal server error" };
+    }
 
-    return true;
+    return {
+      status: 200,
+      message: "Email sent successfully",
+    };
   } catch (error) {
     console.log(error);
   }
 }
 export async function ResetPasswordToken(token: string, password: string) {
   try {
-    if (!token) throw new Error("Token not found");
+    if (!token) {
+      return {
+        status: 400,
+      };
+    }
 
     const user = await prisma.user.findFirst({ where: { resetToken: token } });
 
-    if (!user) throw new Error("Token expired");
+    if (!user) {
+      return {
+        status: 404,
+        message: "User not found",
+      };
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (isPasswordValid)
-      throw new Error("Password is the same as previous one");
+    if (isPasswordValid) {
+      return {
+        status: 400,
+        message: "New password cannot be the same as the old one",
+      };
+    }
 
     await prisma.user.update({
       where: { id: user.id },
@@ -66,7 +87,10 @@ export async function ResetPasswordToken(token: string, password: string) {
       },
     });
 
-    return;
+    return {
+      status: 200,
+      message: "Password reset successfully",
+    };
   } catch (error) {
     console.log(error);
   }

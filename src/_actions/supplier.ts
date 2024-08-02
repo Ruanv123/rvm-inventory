@@ -67,7 +67,7 @@ export async function createSupplier(data: createSupplierProps) {
   const session = await auth();
   if (!session) return;
 
-  const supplier = await prisma.supplier.create({
+  await prisma.supplier.create({
     data: {
       name: data.name,
       address: data.address,
@@ -78,7 +78,10 @@ export async function createSupplier(data: createSupplierProps) {
   });
 
   revalidatePath("/suppliers");
-  return supplier;
+  return {
+    status: 201,
+    message: "Supplier created successfully",
+  };
 }
 
 export async function deleteSupplier(id: number) {

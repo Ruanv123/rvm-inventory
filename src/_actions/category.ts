@@ -13,8 +13,8 @@ interface GetCategorieProps {
 
 export async function getCategories({
   search,
-  limit = 10,
-  offset = 0,
+  limit = 9,
+  offset = 1,
 }: GetCategorieProps) {
   const session = await auth();
   const data = await prisma.category.findMany({
@@ -57,6 +57,13 @@ export async function createCategory(data: { name: string }) {
   const session = await auth();
   if (!session) return;
 
+  const existingCategory = await prisma.category.findFirst({
+    where: { name: data.name, status: "ACTIVE" },
+  });
+
+  if (existingCategory)
+    return { status: 409, message: "Category already exists" };
+
   const category = await prisma.category.create({
     data: {
       name: data.name,
@@ -65,7 +72,10 @@ export async function createCategory(data: { name: string }) {
   });
 
   revalidatePath("/categories");
-  return category;
+  return {
+    status: 201,
+    message: "Category created successfully",
+  };
 }
 
 export async function deleteCategories(id: number) {

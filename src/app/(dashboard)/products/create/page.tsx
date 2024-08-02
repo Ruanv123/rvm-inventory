@@ -21,9 +21,10 @@ import { SelectCategory } from "../_components/select-category";
 import { SelectSuppliers } from "../_components/select-suppliers";
 import { useTransition } from "react";
 import { Loader } from "@/components/shared/loader";
+import { FormRequired } from "@/components/shared/form-required";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(1, "Image URL is required").optional(),
+  imageUrl: z.string().optional(),
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
   price: z.string().transform((val) => parseFloat(val)),
@@ -44,19 +45,25 @@ export default function CreateProductPage() {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        await createProduct(data);
-        form.reset({
-          imageUrl: "",
-          name: "",
-          description: "",
-          barCode: "",
-          categoryId: "",
-          supplierId: "",
-          price: undefined,
-          stockQuantity: undefined,
+      startTransition(() => {
+        createProduct(data).then((res) => {
+          if (res?.status !== 201) {
+            toast.error(res?.message);
+          }
+
+          toast.success(res?.message);
+
+          form.reset({
+            imageUrl: "",
+            name: "",
+            description: "",
+            barCode: "",
+            categoryId: "",
+            supplierId: "",
+            price: undefined,
+            stockQuantity: undefined,
+          });
         });
-        toast.success("Product created successfully");
       });
     } catch (error) {
       toast.error("Product creation failed");
@@ -77,7 +84,9 @@ export default function CreateProductPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>
+                      Name <FormRequired />
+                    </FormLabel>
                     <FormControl>
                       <Input type="text" {...field} />
                     </FormControl>
@@ -90,7 +99,9 @@ export default function CreateProductPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>
+                      Description <FormRequired />
+                    </FormLabel>
                     <FormControl>
                       <Textarea cols={10} rows={5} {...field} />
                     </FormControl>
@@ -117,7 +128,9 @@ export default function CreateProductPage() {
                   name="categoryId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
+                      <FormLabel>
+                        Category <FormRequired />
+                      </FormLabel>
                       <SelectCategory
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -131,7 +144,9 @@ export default function CreateProductPage() {
                   name="supplierId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Supplier</FormLabel>
+                      <FormLabel>
+                        Supplier <FormRequired />
+                      </FormLabel>
                       <SelectSuppliers
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -147,7 +162,9 @@ export default function CreateProductPage() {
                   name="price"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Price</FormLabel>
+                      <FormLabel>
+                        Price <FormRequired />
+                      </FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -160,7 +177,9 @@ export default function CreateProductPage() {
                   name="stockQuantity"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Stock Quantity</FormLabel>
+                      <FormLabel>
+                        Stock Quantity <FormRequired />
+                      </FormLabel>
                       <FormControl>
                         <Input type="number" {...field} />
                       </FormControl>
@@ -174,7 +193,9 @@ export default function CreateProductPage() {
                 name="barCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>BarCode</FormLabel>
+                    <FormLabel>
+                      BarCode <FormRequired />
+                    </FormLabel>
                     <FormControl>
                       <Input type="text" {...field} maxLength={13} />
                     </FormControl>

@@ -1,6 +1,7 @@
 "use client";
 
 import { createSupplier } from "@/_actions/supplier";
+import { FormRequired } from "@/components/shared/form-required";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,10 +50,15 @@ export default function CreateSupplier() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        await createSupplier(values);
-        toast.success("Supplier created successfully");
-        form.reset();
+      startTransition(() => {
+        createSupplier(values).then((res) => {
+          if (res?.status !== 201) {
+            toast.error("Failed to create supplier");
+          }
+
+          toast.success(res?.message);
+          form.reset();
+        });
       });
     } catch (error) {
       console.log(error);
@@ -74,7 +80,9 @@ export default function CreateSupplier() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>
+                      Name <FormRequired />
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -117,7 +125,7 @@ export default function CreateSupplier() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className={cn(index !== 0 && "sr-only")}>
-                          Contacts
+                          Contacts <FormRequired />
                         </FormLabel>
                         <FormDescription
                           className={cn(index !== 0 && "sr-only")}
