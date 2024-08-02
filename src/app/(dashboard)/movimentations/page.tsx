@@ -50,16 +50,8 @@ export default async function MovimentationsPage({
         </Link>
       </div>
 
-      <p>
-        Implementar logica de ao cadastrar uma entrada ou saida descontar na
-        quantidade de items do produto.
-      </p>
-
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
-          <div className="flex">
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
-          </div>
           <div className="overflow-hidden rounded-md border">
             <Table>
               <TableHeader>
@@ -90,6 +82,11 @@ export default async function MovimentationsPage({
               </TableBody>
             </Table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalCount}
+          />
         </section>
       ) : (
         <EmptyTable name="Movimentation" buttonLink="" />

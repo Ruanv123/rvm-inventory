@@ -36,7 +36,7 @@ export default async function CategoriesPage({
   const limit = Number(searchParams?.limit) || 10;
   const offset = (currentPage - 1) * limit;
 
-  const { data, totalPages } = await getCategories({
+  const { data, totalPages, totalCount } = await getCategories({
     search,
     limit,
     offset,
@@ -58,10 +58,7 @@ export default async function CategoriesPage({
       </div>
 
       {data.length > 0 ? (
-        <section className="grid gap-2 items-end">
-          <div className="flex justify-between items-start">
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
-          </div>
+        <section className="grid gap-2">
           <div className="overflow-hidden rounded-md border">
             <Table>
               <TableHeader>
@@ -115,9 +112,17 @@ export default async function CategoriesPage({
               </TableBody>
             </Table>
           </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalCount}
+          />
         </section>
       ) : (
-        <EmptyTable name="Categorie" buttonLink="" />
+        <div className="h-96">
+          <EmptyTable name="Categorie" buttonLink="" />
+        </div>
       )}
     </>
   );

@@ -20,7 +20,7 @@ interface createMovimentationProps {
 
 export async function getMovimentations({
   search,
-  limit = 10,
+  limit = 9,
   offset = 1,
 }: GetMovimentatiosProps) {
   const session = await auth();
@@ -72,16 +72,24 @@ export async function createMovimentation(data: createMovimentationProps) {
     where: { id: +data.productId },
   });
 
-  if (!product) throw new Error("Product not found");
+  if (!product) {
+    return {
+      status: 400,
+      message: "Product not found",
+    };
+  }
 
   if (data.type === "OUT") {
     if (product?.stockQuantity < data.quantity) {
-      throw new Error("Insufficient quantity");
+      return {
+        status: 400,
+        message: "Insufficient quantity in stock",
+      };
     }
   }
 
   //  Incrementar ou decrementar na quantidade do produto
-  const increment = await prisma.product.update({
+  await prisma.product.update({
     where: { id: product.id },
     data: {
       stockQuantity:
@@ -92,7 +100,7 @@ export async function createMovimentation(data: createMovimentationProps) {
   });
 
   // criando na tabela a movimentacao
-  const movement = await prisma.movement.create({
+  await prisma.movement.create({
     data: {
       quantity: data.quantity,
       type: data.type,
@@ -104,5 +112,27 @@ export async function createMovimentation(data: createMovimentationProps) {
 
   revalidatePath("/movimentations");
   // return movement;
-  return data;
+  return {
+    status: 201,
+    message: "Movimentation created successfully",
+  };
 }
+
+export async function getTotalRevenue() {
+  const data = await prisma.movement.aggregate({
+    where: {
+      type: "IN",
+      date: {
+        gte: new Date("2022-01-01"),
+        lte: new Date("2022-12-31"),
+      },
+    },
+    _sum: {
+      quantity: true,
+    },
+  });
+
+  console.log(data);
+}
+
+getTotalRevenue();

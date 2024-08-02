@@ -50,11 +50,16 @@ export default function ForgotPasswordTokenPage({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        await ResetPasswordToken(token, values.password);
-        form.reset({ confirmPassword: "", password: "" });
-        toast.success("Password reset successfully");
-        router.push("/signin");
+      startTransition(() => {
+        ResetPasswordToken(token, values.password).then((res) => {
+          if (res?.status !== 200) {
+            toast.error(res?.message);
+          }
+
+          form.reset({ confirmPassword: "", password: "" });
+          toast.success(res?.message);
+          router.push("/signin");
+        });
       });
     } catch (error) {
       toast.error("Failed to reset password");

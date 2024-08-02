@@ -8,6 +8,8 @@ const publicRoutes = [
   new RegExp("^/forgot-password/.*$"),
 ];
 
+const privateRoutes = [new RegExp("^/admin/.*$")];
+
 export default auth((req) => {
   const path = req.nextUrl.pathname;
 
@@ -15,6 +17,11 @@ export default auth((req) => {
     typeof route === "string" ? route === path : route.test(path)
   );
 
+  const isAdminRoute = privateRoutes.some((route) => route.test(path));
+
+  if (req.auth && req.auth.user.role !== "ADMIN" && isAdminRoute) {
+    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+  }
   if (!req.auth && !isPublicRoute) {
     return NextResponse.redirect(new URL("/signin", req.nextUrl.origin));
   }

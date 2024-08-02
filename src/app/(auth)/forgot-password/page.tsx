@@ -36,10 +36,15 @@ export default function ForgotPasswordPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      startTransition(async () => {
-        await ResetPasswordEmail(values.email);
-        toast.success("Email sent");
-        form.reset({ email: "" });
+      startTransition(() => {
+        ResetPasswordEmail(values.email).then((res) => {
+          if (res?.status !== 200) {
+            toast.error(res?.message);
+          }
+
+          toast.success(res?.message);
+          form.reset({ email: "" });
+        });
       });
     } catch (error) {
       console.log(error);
@@ -88,7 +93,7 @@ export default function ForgotPasswordPage() {
                   )}
                 />
                 <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? <Loader /> : 'Send Link'}
+                  {isPending ? <Loader /> : "Send Link"}
                 </Button>
               </div>
             </form>
