@@ -116,7 +116,6 @@ export default function ForgotPasswordTokenPage({
         <Link
           href="/signin"
           className="mt-5 text-muted-foreground text-sm flex gap-2 items-center"
-          prefetch={false}
         >
           <ArrowLeft size={14} /> Back to login
         </Link>

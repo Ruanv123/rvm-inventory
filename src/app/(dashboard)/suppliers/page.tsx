@@ -46,7 +46,7 @@ export default async function SuppliersPage({
     <>
       <div className="flex items-center justify-between w-full">
         <h1 className="text-lg font-semibold md:text-2xl">Suppliers</h1>
-        <Link href="/suppliers/create" prefetch={false}>
+        <Link href="/suppliers/create">
           <Button size="sm" className="h-7 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -92,11 +92,7 @@ export default async function SuppliersPage({
                     </TableCell>
                     <TableCell>{supplier.address || "-"}</TableCell>
                     <TableCell>
-                      <Link
-                        href={supplier.website || ""}
-                        prefetch={false}
-                        target="_blank"
-                      >
+                      <Link href={supplier.website || ""} target="_blank">
                         {supplier.website || "-"}
                       </Link>
                     </TableCell>

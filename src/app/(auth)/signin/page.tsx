@@ -89,7 +89,6 @@ export default function LoginPage() {
                         <Link
                           href="/forgot-password"
                           className="ml-auto inline-block text-sm underline"
-                          prefetch={false}
                         >
                           Forgot your password?
                         </Link>
@@ -112,7 +111,7 @@ export default function LoginPage() {
           </Form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline" prefetch={false}>
+            <Link href="/signup" className="underline">
               Sign up
             </Link>
           </div>

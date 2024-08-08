@@ -37,6 +37,8 @@ export default function Pagination({
     router.replace(`${pathname}?${params.toString()}`);
   }
 
+  if (totalPages < 2) return null;
+
   // function renderPaginationItems() {
   //   const items = [];
 
