@@ -16,7 +16,7 @@ export function EmptyTable({ buttonLink = "", name }: EmptyTableProps) {
         <p className="text-sm text-muted-foreground">
           You can start selling as soon as you add a {name}.
         </p>
-        <Link href={buttonLink} prefetch={false}>
+        <Link href={buttonLink}>
           <Button className="mt-4">Add {name}</Button>
         </Link>
       </div>

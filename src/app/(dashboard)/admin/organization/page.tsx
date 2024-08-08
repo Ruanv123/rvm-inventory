@@ -46,7 +46,7 @@ export default async function OrganizationPage({
       <div className="flex items-center justify-between w-full">
         <h1 className="text-lg font-semibold md:text-2xl">Organizations</h1>
 
-        <Link href="/admin/organization/create" prefetch={false}>
+        <Link href="/admin/organization/create">
           <Button size="sm" className="h-7 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -82,7 +82,14 @@ export default async function OrganizationPage({
                         className="aspect-square rounded-md object-cover border"
                       />
                     </TableCell>
-                    <TableCell>{item.name}</TableCell>
+                    <TableCell>
+                      <Link
+                        href={`/admin/organization/${item.id}`}
+                        className="underline"
+                      >
+                        {item.name}
+                      </Link>
+                    </TableCell>
                     <TableCell>{item.status}</TableCell>
                     <TableCell>
                       <DropdownMenu>

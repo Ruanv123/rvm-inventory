@@ -1,20 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
 import { usePathname } from "next/navigation";
 
-import {
-  ArrowRightLeft,
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  ShoppingCart,
-  Truck,
-  Users,
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -22,7 +11,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {
+  ArrowRightLeft,
+  Bell,
+  Home,
+  Package,
+  Package2,
+  ShoppingCart,
+  Truck,
+  Users,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
 
 export const navItems = [
@@ -51,12 +49,21 @@ export const navItems = [
     href: "/suppliers",
     icon: <Truck className="h-4 w-4" />,
   },
-
-  {
-    label: "Analytics",
-    href: "/analytics",
-    icon: <LineChart className="h-4 w-4" />,
-  },
+  // {
+  //   label: "Customers",
+  //   href: "/customer",
+  //   icon: <Users2 className="h-4 w-4" />,
+  // },
+  // {
+  //   label: "Sales",
+  //   href: "/sale",
+  //   icon: <CreditCard className="h-4 w-4" />,
+  // },
+  // {
+  //   label: "Analytics",
+  //   href: "/analytics",
+  //   icon: <LineChart className="h-4 w-4" />,
+  // },
   {
     label: "Organizations",
     href: "/admin/organization",
@@ -104,22 +111,24 @@ export default function Sidebar() {
             })}
           </nav>
         </div>
-        <div className="mt-auto p-4">
-          <Card x-chunk="dashboard-02-chunk-0">
-            <CardHeader className="p-2 pt-0 md:p-4">
-              <CardTitle>Upgrade to Pro</CardTitle>
-              <CardDescription>
-                Unlock all features and get unlimited access to our support
-                team.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-              <Button size="sm" className="w-full">
-                Upgrade
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        {session?.user.role !== "ADMIN" && (
+          <div className="mt-auto p-4">
+            <Card x-chunk="dashboard-02-chunk-0">
+              <CardHeader className="p-2 pt-0 md:p-4">
+                <CardTitle>Upgrade to Pro</CardTitle>
+                <CardDescription>
+                  Unlock all features and get unlimited access to our support
+                  team.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+                <Button size="sm" className="w-full">
+                  Upgrade
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </aside>
   );

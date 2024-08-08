@@ -19,9 +19,10 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { SelectCategory } from "../_components/select-category";
 import { SelectSuppliers } from "../_components/select-suppliers";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { Loader } from "@/components/shared/loader";
 import { FormRequired } from "@/components/shared/form-required";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   imageUrl: z.string().optional(),
@@ -39,8 +40,18 @@ const formSchema = z.object({
 
 export default function CreateProductPage() {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      price: 0,
+      stockQuantity: 0.0,
+      barCode: "",
+      categoryId: "",
+      supplierId: "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
@@ -49,20 +60,12 @@ export default function CreateProductPage() {
         createProduct(data).then((res) => {
           if (res?.status !== 201) {
             toast.error(res?.message);
+            form.reset({});
           }
 
+          form.reset({});
+          router.refresh();
           toast.success(res?.message);
-
-          form.reset({
-            imageUrl: "",
-            name: "",
-            description: "",
-            barCode: "",
-            categoryId: "",
-            supplierId: "",
-            price: undefined,
-            stockQuantity: undefined,
-          });
         });
       });
     } catch (error) {
@@ -204,7 +207,11 @@ export default function CreateProductPage() {
                 )}
               />
               <div className="ml-auto flex gap-2">
-                <Button type="button" variant="secondary">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => form.reset({})}
+                >
                   Cancel
                 </Button>
                 <Button type="submit" disabled={isPending}>

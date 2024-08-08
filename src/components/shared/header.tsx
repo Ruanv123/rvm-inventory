@@ -100,7 +100,7 @@ export default async function Header() {
               Billing
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <Link href="/settings" prefetch={false}>
+            <Link href="/settings">
               <DropdownMenuItem className="cursor-pointer">
                 Settings
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>

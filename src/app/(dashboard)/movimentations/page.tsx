@@ -40,7 +40,7 @@ export default async function MovimentationsPage({
     <>
       <div className="flex items-center justify-between w-full">
         <h1 className="text-lg font-semibold md:text-2xl">Movimentations</h1>
-        <Link href="/movimentations/create" prefetch={false}>
+        <Link href="/movimentations/create">
           <Button size="sm" className="h-7 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
