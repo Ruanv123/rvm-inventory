@@ -32,7 +32,6 @@ export function Overview() {
     getData();
   }, []);
 
-  console.log(resData);
 
   return (
     <ChartContainer config={chartConfig} className="max-h-[350px] w-full">
