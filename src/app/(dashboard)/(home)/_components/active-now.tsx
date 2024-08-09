@@ -9,6 +9,7 @@ export async function ActiveNow() {
   const products = await prisma.product.count({
     where: { organizationId, status: "ACTIVE" },
   });
+
   return (
     <Card>
       {/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
