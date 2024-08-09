@@ -111,7 +111,7 @@ export default function SignupPage() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Acme Inc
+            Rvm Systems
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
@@ -229,77 +229,3 @@ export default function SignupPage() {
   );
 }
 
-{
-  /* <div className="flex items-center justify-center min-h-dvh max-h-dvh">
-<div className="mx-auto max-w-md space-y-6">
-  <div className="space-y-2 text-center">
-    <h1 className="text-3xl font-bold">Register</h1>
-    <p className="text-muted-foreground">
-      Create your account to get started.
-    </p>
-  </div>
-  <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="john@example.com"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="********" {...field} />
-              </FormControl>
-              <FormDescription>
-                Must be at least 8 characters.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full">
-          Register
-        </Button>
-      </div>
-    </form>
-  </Form>
-  <div className="text-center text-sm text-muted-foreground">
-    Already have an account?{" "}
-    <Link href="/signin" className="underline" prefetch={false}>
-      Sign In
-    </Link>
-  </div>
-</div>
-</div> */
-}
