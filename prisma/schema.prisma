@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Organization {
-  id       Int    @id @default(autoincrement())
-  name     String
-  imageUrl String
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  imageUrl    String
 
   ownerId Int
 
@@ -23,9 +24,11 @@ model Organization {
   categories Category[]
   Movement   Movement[]
 
-  status    Status   @default(ACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    Status     @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Sale      Sale[]
+  Customer  Customer[]
 }
 
 model User {
@@ -45,10 +48,10 @@ model User {
 }
 
 model Product {
-  id            Int    @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   name          String
   description   String
-  barCode       String @unique
+  barCode       String  @unique
   imageUrl      String?
   price         Float
   stockQuantity Int
@@ -65,6 +68,7 @@ model Product {
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   Organization Organization @relation(fields: [organizationId], references: [id])
+  SaleItem     SaleItem[]
 }
 
 model Category {
@@ -108,11 +112,49 @@ model Movement {
   organization   Organization @relation(fields: [organizationId], references: [id])
 }
 
+model Sale {
+  id             Int          @id @default(autoincrement())
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  customerId     Int
+  customer       Customer     @relation(fields: [customerId], references: [id])
+  saleDate       DateTime     @default(now())
+  totalAmount    Float
+  saleItems      SaleItem[]
+}
+
+model SaleItem {
+  id        Int     @id @default(autoincrement())
+  saleId    Int
+  sale      Sale    @relation(fields: [saleId], references: [id])
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model Customer {
+  id             Int          @id @default(autoincrement())
+  name           String
+  contact        String[]
+  address        String?
+  website        String?
+  customerType   CustomerType @default(FISICAL)
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  sales          Sale[]
+}
+
 model Notification {
   id        Int                @id @default(autoincrement())
   message   String
   status    NotificationStatus
   createdAt DateTime           @default(now())
+}
+
+enum CustomerType {
+  FISICAL
+  LEGAL
 }
 
 enum Status {

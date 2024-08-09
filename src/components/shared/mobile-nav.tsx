@@ -14,9 +14,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { navItems } from "./sidebar";
+import { useSession } from "next-auth/react";
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  if (!session) return;
 
   return (
     <Sheet>
@@ -49,22 +52,24 @@ export default function MobileNav() {
             </Link>
           ))}
         </nav>
-        <div className="mt-auto">
-          <Card>
-            <CardHeader>
-              <CardTitle>Upgrade to Pro</CardTitle>
-              <CardDescription>
-                Unlock all features and get unlimited access to our support
-                team.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button size="sm" className="w-full">
-                Upgrade
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        {session?.user.role !== "ADMIN" && (
+          <div className="mt-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle>Upgrade to Pro</CardTitle>
+                <CardDescription>
+                  Unlock all features and get unlimited access to our support
+                  team.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button size="sm" className="w-full">
+                  Upgrade
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

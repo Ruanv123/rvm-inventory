@@ -18,6 +18,7 @@ import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { SeachFilter } from "./filter";
+import { Breadcrumb } from "./breadcrumb";
 
 export default async function Header() {
   const session = await auth();
@@ -30,43 +31,12 @@ export default async function Header() {
     <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 ">
       <MobileNav />
       <div className="w-full flex-1">
-        <form>
+        {/* <form>
           <SeachFilter />
-        </form>
+        </form> */}
+        <Breadcrumb />
       </div>
       <ModeToggle />
-
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div>
-            <Avatar className="rounded-md size-[38px] cursor-pointer border">
-              <AvatarImage
-                src={
-                  session.user.image ||
-                  "https://xsgames.co/randomusers/avatar.php?g=pixel"
-                }
-                alt=""
-              />
-              <AvatarFallback></AvatarFallback>
-            </Avatar>
-            <span className="sr-only">Toggle user menu</span>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href="/settings" prefetch={false}>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-          </Link>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <Logout>
-            <DropdownMenuItem className="cursor-pointer">
-              Logout
-            </DropdownMenuItem>
-          </Logout>
-        </DropdownMenuContent>
-      </DropdownMenu> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">

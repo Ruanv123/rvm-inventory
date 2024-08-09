@@ -5,12 +5,13 @@ import prisma from "@/lib/db";
 export async function TotalRevenue() {
   const session = await auth();
   const totalProducts = await prisma.product.count({
-    where: { organizationId: session?.user.organizationId },
+    where: { organizationId: session?.user.organizationId, status: "ACTIVE" },
   });
 
   const totalProductsByLAstMonth = await prisma.product.count({
     where: {
       organizationId: session?.user.organizationId,
+      status: "ACTIVE",
       createdAt: {
         gte: new Date(new Date().setDate(new Date().getDate() - 30)),
       },

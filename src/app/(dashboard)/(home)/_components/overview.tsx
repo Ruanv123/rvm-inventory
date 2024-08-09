@@ -1,75 +1,61 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { getMovimentationByMonth } from "@/_actions/movimentation";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { useEffect, useState } from "react";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
   },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
   },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-];
+} satisfies ChartConfig;
 
 export function Overview() {
+  const [resData, setData] =
+    useState<{ name: string; total: string | number }[]>();
+
+  useEffect(() => {
+    async function getData() {
+      await getMovimentationByMonth().then((res) => setData(res));
+    }
+    getData();
+  }, []);
+
+  console.log(resData);
+
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+    <ChartContainer config={chartConfig} className="max-h-[350px] w-full">
+      <BarChart accessibilityLayer data={resData}>
         <XAxis
           dataKey="name"
-          stroke="#888888"
           fontSize={12}
           tickLine={false}
-          axisLine={false}
+          tickMargin={10}
+          axisLine={true}
         />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `$${value}`}
+        <YAxis fontSize={12} tickLine={false} axisLine={true} />
+        <ChartTooltip
+          content={
+            <ChartTooltipContent
+              formatter={(value) =>
+                value.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })
+              }
+            />
+          }
         />
         <Bar
           dataKey="total"
@@ -78,6 +64,6 @@ export function Overview() {
           className="fill-primary"
         />
       </BarChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 }

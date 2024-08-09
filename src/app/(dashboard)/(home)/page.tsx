@@ -70,7 +70,7 @@ export default function Home() {
             <Overview />
           </CardContent>
         </Card>
-        <Card className="col-span-3 h-fit">
+        <Card className="col-span-4 sm:col-span-3 h-fit">
           <CardHeader>
             <CardTitle>Recent Sales</CardTitle>
             <CardDescription>You made 265 sales this month.</CardDescription>

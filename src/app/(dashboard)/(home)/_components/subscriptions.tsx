@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export async function HomeSubscriptions() {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Products Out</CardTitle>
+      {/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -23,7 +23,7 @@ export async function HomeSubscriptions() {
       <CardContent>
         <div className="text-2xl font-bold">+2350</div>
         <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 }

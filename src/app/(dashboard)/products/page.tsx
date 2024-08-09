@@ -22,6 +22,10 @@ import { formatPrice } from "@/lib/utils";
 import { EllipsisVertical, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { DeleteButton } from "./_components/deleteButton";
+import {
+  ProductStatus,
+  ProductTableFilters,
+} from "./_components/product-filters";
 
 export default async function ProductPage({
   searchParams,
@@ -31,9 +35,14 @@ export default async function ProductPage({
     page?: string;
     limit?: string;
     status?: string;
+    barCode?: string;
   };
 }) {
   const search = searchParams?.query || "";
+  const barCode = searchParams?.barCode || "";
+  const status = searchParams?.status
+    ? (searchParams?.status as ProductStatus)
+    : "ACTIVE";
   const currentPage = Number(searchParams?.page) || 1;
   const limit = Number(searchParams?.limit) || 7;
   const offset = (currentPage - 1) * limit;
@@ -42,6 +51,8 @@ export default async function ProductPage({
     search,
     limit,
     offset,
+    status,
+    barCode,
   });
 
   return (
@@ -58,7 +69,7 @@ export default async function ProductPage({
         </Link>
       </div>
 
-      {/* <ProductTableFilters /> */}
+      <ProductTableFilters />
       {data.length > 0 ? (
         <section className="grid gap-2 items-end">
           <div className="overflow-hidden rounded-md border">

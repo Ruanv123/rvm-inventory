@@ -7,6 +7,8 @@ import { revalidatePath } from "next/cache";
 
 interface GetProductsProps {
   search?: string | undefined;
+  status?: "ACTIVE" | "DELETED" | "NONE";
+  barCode?: string | undefined;
   offset?: number;
   limit?: number;
 }
@@ -24,6 +26,8 @@ interface createProductProps {
 
 export async function getProducts({
   search,
+  barCode,
+  status = "ACTIVE",
   limit = 10,
   offset = 1,
 }: GetProductsProps) {
@@ -32,7 +36,8 @@ export async function getProducts({
   const data = await prisma.product.findMany({
     where: {
       name: { contains: search },
-      status: "ACTIVE",
+      status: status === "NONE" ? undefined : status,
+      barCode: { contains: barCode },
       organizationId: session?.user.organizationId,
     },
     skip: offset,
