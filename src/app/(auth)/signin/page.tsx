@@ -39,9 +39,18 @@ export default function LoginPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       startTransition(async () => {
-        await login(values.email, values.password);
-        toast.success("Login successful");
-        form.reset();
+        await login(values.email, values.password).then((res) => {
+          if (!res?.error) {
+            toast.success("Login successful");
+            form.reset({
+              email: "",
+              password: "",
+            });
+            return;
+          }
+
+          toast.error(res?.error);
+        });
       });
     } catch (error) {
       toast.error("Login failed");

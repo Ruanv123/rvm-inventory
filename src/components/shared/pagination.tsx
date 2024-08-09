@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import {
-  Pagination as ShadcnPagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  Pagination as ShadcnPagination,
 } from "@/components/ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "../ui/button";
-import { ChevronLeft, ChevronsLeft } from "lucide-react";
+import { useState } from "react";
 
 interface Props {
   totalPages: number;
