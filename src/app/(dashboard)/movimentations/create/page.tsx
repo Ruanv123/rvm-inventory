@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { SelectProducts } from "../_components/select-products";
 import { FormRequired } from "@/components/shared/form-required";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   quantity: z.string().transform((val) => parseFloat(val)),
@@ -39,6 +40,7 @@ const formSchema = z.object({
 
 export default function CreateMovimentationPage() {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,12 +55,8 @@ export default function CreateMovimentationPage() {
           }
 
           toast.success(res?.message);
-          form.reset({
-            quantity: undefined,
-            type: undefined,
-            reason: undefined,
-            productId: "none",
-          });
+          form.reset(form.getValues());
+          router.refresh();
         });
       });
     } catch (error) {

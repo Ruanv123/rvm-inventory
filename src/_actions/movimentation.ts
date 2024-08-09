@@ -18,6 +18,13 @@ interface createMovimentationProps {
   productId: string;
 }
 
+type SalesByMonth = {
+  [key: string]: {
+    quantity: number;
+    total: number;
+  };
+};
+
 export async function getMovimentations({
   search,
   limit = 9,
@@ -135,4 +142,62 @@ export async function getTotalRevenue() {
   console.log(data);
 }
 
-getTotalRevenue();
+export async function getMovimentationByMonth() {
+  const session = await auth();
+  const organizationId = session?.user.organizationId;
+
+  const productsSale = await prisma.movement.findMany({
+    where: { type: "OUT", organizationId },
+    select: {
+      quantity: true,
+      date: true,
+      Product: {
+        select: {
+          price: true,
+        },
+      },
+    },
+  });
+
+  const salesByMonth = productsSale.reduce<SalesByMonth>((acc, sale) => {
+    const month = sale.date.getMonth(); // getMonth() retorna o mês de 0 a 11
+    const year = sale.date.getFullYear();
+    const monthYear = `${month}-${year}`;
+
+    if (!acc[monthYear]) {
+      acc[monthYear] = { quantity: 0, total: 0 };
+    }
+
+    acc[monthYear].quantity += sale.quantity;
+    acc[monthYear].total += sale.quantity * sale.Product.price;
+
+    return acc;
+  }, {});
+
+  // Mapear números dos meses para abreviações
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Construir o array final com os meses do ano
+  const salesArray = monthNames.map((name, index) => {
+    const key = `${index}-${new Date().getFullYear()}`;
+    return {
+      name,
+      total: salesByMonth[key]?.total || 0,
+    };
+  });
+
+  return salesArray;
+}

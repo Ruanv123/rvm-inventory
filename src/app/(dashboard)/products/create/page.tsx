@@ -63,7 +63,16 @@ export default function CreateProductPage() {
             form.reset({});
           }
 
-          form.reset({});
+          form.reset({
+            barCode: "",
+            categoryId: "",
+            description: "",
+            imageUrl: "",
+            name: "",
+            price: 0,
+            stockQuantity: 0.0,
+            supplierId: "",
+          });
           router.refresh();
           toast.success(res?.message);
         });

@@ -1,10 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
 
-export function ActiveNow() {
+export async function ActiveNow() {
+  const session = await auth();
+  const organizationId = session?.user.organizationId;
+
+  const products = await prisma.product.count({
+    where: { organizationId, status: "ACTIVE" },
+  });
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+      {/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">All Products</CardTitle>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -19,9 +27,9 @@ export function ActiveNow() {
         </svg>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">+573</div>
+        <div className="text-2xl font-bold">{products}</div>
         <p className="text-xs text-muted-foreground">+201 since last hour</p>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 }

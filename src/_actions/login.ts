@@ -8,6 +8,8 @@ export async function login(email: string, password: string) {
     email,
     password,
     redirectTo: "/",
+  }).then(() => {
+    
   });
 
   revalidatePath("/");

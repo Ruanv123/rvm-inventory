@@ -117,14 +117,20 @@ export default function Pagination({
             <PaginationItem>
               <PaginationPrevious
                 href="#"
-                onClick={() => handlePageChange(current - 1)}
+                onClick={() => {
+                  if (current - 1 === 0) return;
+                  return handlePageChange(current - 1);
+                }}
               />
             </PaginationItem>
             <PaginationItem>{current}</PaginationItem>
             <PaginationItem>
               <PaginationNext
                 href="#"
-                onClick={() => handlePageChange(current + 1)}
+                onClick={() => {
+                  if (current + 1 > totalPages) return;
+                  return handlePageChange(current + 1);
+                }}
               />
             </PaginationItem>
           </PaginationContent>
