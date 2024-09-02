@@ -53,6 +53,7 @@ export async function ResetPasswordEmail(to: string) {
     console.log(error);
   }
 }
+
 export async function ResetPasswordToken(token: string, password: string) {
   try {
     if (!token) {

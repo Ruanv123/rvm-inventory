@@ -129,15 +129,19 @@ export function ProductTableFilters() {
         <Search className="mr-2 h-4 w-4" />
         Filter results
       </Button>
-      <Button
-        variant="outline"
-        size="xs"
-        type="button"
-        onClick={handleClearFilters}
-      >
-        <X className="mr-2 h-4 w-4" />
-        Remove filters
-      </Button>
+      {barCode ||
+        productName ||
+        (status && (
+          <Button
+            variant="outline"
+            size="xs"
+            type="button"
+            onClick={handleClearFilters}
+          >
+            <X className="mr-2 h-4 w-4" />
+            Remove filters
+          </Button>
+        ))}
     </form>
   );
 }

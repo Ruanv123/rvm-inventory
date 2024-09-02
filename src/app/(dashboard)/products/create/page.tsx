@@ -177,7 +177,14 @@ export default function CreateProductPage() {
                         Price <FormRequired />
                       </FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} step="0.01" />
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(+value.target.valueAsNumber)
+                          }
+                          step="0.01"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -192,7 +199,13 @@ export default function CreateProductPage() {
                         Stock Quantity <FormRequired />
                       </FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(+value.target.valueAsNumber)
+                          }
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
