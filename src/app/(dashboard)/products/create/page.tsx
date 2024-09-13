@@ -28,11 +28,10 @@ const formSchema = z.object({
   imageUrl: z.string().optional(),
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
-  price: z.string().transform((val) => parseFloat(val)),
+  price: z.number(),
   stockQuantity: z
-    .string()
-    .max(32, "Stock quantity must be less than 32 characters")
-    .transform((val) => parseInt(val, 32)),
+    .number()
+    .max(32, "Stock quantity must be less than 32 characters"),
   barCode: z.string().min(1, "Bar Code is required"),
   categoryId: z.string(),
   supplierId: z.string(),
@@ -178,7 +177,14 @@ export default function CreateProductPage() {
                         Price <FormRequired />
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(+value.target.valueAsNumber)
+                          }
+                          step="0.01"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -193,7 +199,13 @@ export default function CreateProductPage() {
                         Stock Quantity <FormRequired />
                       </FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(+value.target.valueAsNumber)
+                          }
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

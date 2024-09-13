@@ -2,7 +2,7 @@ import prisma from "@/lib/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import NextAuth, { type DefaultSession } from "next-auth";
+import NextAuth, { type DefaultSession, AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 export type ExtendedUser = DefaultSession["user"] & {
@@ -60,12 +60,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user) {
-          throw new Error("User not found.");
+          return null;
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
+
         if (!isPasswordValid) {
-          throw new Error("Incorrect password.");
+          return null;
         }
 
         return {

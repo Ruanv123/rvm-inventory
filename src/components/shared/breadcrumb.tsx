@@ -15,7 +15,7 @@ import { Fragment } from "react";
 export function Breadcrumb() {
   const pathname = usePathname();
 
-  const items = pathname.split("/").filter((item) => item !== "");
+  const items = pathname.split("/").filter((item) => item !== "" && item !== 'create' && item !== "edit");
 
   if (items.length === 0) {
     return null;
