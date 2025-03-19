@@ -1,6 +1,6 @@
 "use client";
 
-import { createMovimentation } from "@/_actions/movimentation";
+import { createMovimentation } from "@/actions/movimentation";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

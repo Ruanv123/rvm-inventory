@@ -1,6 +1,6 @@
 "use client";
 
-import { createSupplier } from "@/_actions/supplier";
+import { createSupplier } from "@/actions/supplier";
 import { FormRequired } from "@/components/shared/form-required";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";

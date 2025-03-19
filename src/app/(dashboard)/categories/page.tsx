@@ -1,4 +1,4 @@
-import { getCategories } from "@/_actions/category";
+import { getCategories } from "@/actions/category";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";

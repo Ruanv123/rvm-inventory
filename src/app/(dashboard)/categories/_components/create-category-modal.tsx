@@ -1,6 +1,6 @@
 "use client";
 
-import { createCategory } from "@/_actions/category";
+import { createCategory } from "@/actions/category";
 import { FormRequired } from "@/components/shared/form-required";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,6 @@
 "use client";
 
-import { getMovimentationByMonth } from "@/_actions/movimentation";
+import { getMovimentationByMonth } from "@/actions/movimentation";
 import {
   ChartConfig,
   ChartContainer,
@@ -31,7 +31,6 @@ export function Overview() {
     }
     getData();
   }, []);
-
 
   return (
     <ChartContainer config={chartConfig} className="max-h-[350px] w-full">

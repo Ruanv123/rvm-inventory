@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteCategories } from "@/_actions/category";
+import { deleteCategories } from "@/actions/category";
 import { PropsWithChildren } from "react";
 import { toast } from "sonner";
 

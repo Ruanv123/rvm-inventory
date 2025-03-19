@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/_actions/login";
+import { login } from "@/actions/login";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import {

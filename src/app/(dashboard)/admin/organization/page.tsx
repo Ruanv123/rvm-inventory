@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { getOrganizations } from "@/_actions/organization";
+import { getOrganizations } from "@/actions/organization";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
 import { Button } from "@/components/ui/button";

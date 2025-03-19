@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSupplier } from "@/_actions/supplier";
+import { deleteSupplier } from "@/actions/supplier";
 import { PropsWithChildren } from "react";
 import { toast } from "sonner";
 

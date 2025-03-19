@@ -1,7 +1,7 @@
 "use client";
 
-import { logout } from "@/_actions/login";
-import { updatePasswordLogged } from "@/_actions/user";
+import { logout } from "@/actions/login";
+import { updatePasswordLogged } from "@/actions/user";
 import { Loader } from "@/components/shared/loader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

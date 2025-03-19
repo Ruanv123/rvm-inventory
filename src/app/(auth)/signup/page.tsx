@@ -1,6 +1,6 @@
 "use client";
 
-import { registerUser } from "@/_actions/user";
+import { registerUser } from "@/actions/user";
 import { Loader } from "@/components/shared/loader";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -228,4 +228,3 @@ export default function SignupPage() {
     </>
   );
 }
-

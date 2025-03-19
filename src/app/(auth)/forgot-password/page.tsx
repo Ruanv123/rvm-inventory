@@ -1,6 +1,6 @@
 "use client";
 
-import { ResetPasswordEmail } from "@/_actions/reset-password";
+import { ResetPasswordEmail } from "@/actions/reset-password";
 import { Loader } from "@/components/shared/loader";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {

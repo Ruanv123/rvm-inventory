@@ -15,7 +15,14 @@ export async function registerUser(data: Prisma.UserCreateInput) {
   try {
     data.password = bcrypt.hashSync(data.password, 10);
     await prisma.user.create({
-      data: data,
+      data: {
+        ...data,
+        organization: {
+          connect: {
+            id: 1,
+          },
+        },
+      },
     });
   } catch (error) {
     console.log("action error", error);

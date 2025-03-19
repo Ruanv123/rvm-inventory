@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProduct } from "@/_actions/product";
+import { deleteProduct } from "@/actions/product";
 import { PropsWithChildren } from "react";
 import { toast } from "sonner";
 

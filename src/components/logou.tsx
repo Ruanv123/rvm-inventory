@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/_actions/login";
+import { logout } from "@/actions/login";
 import { PropsWithChildren } from "react";
 
 const Logout = ({ children }: PropsWithChildren) => {

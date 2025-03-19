@@ -1,4 +1,4 @@
-import { getSuppliers } from "@/_actions/supplier";
+import { getSuppliers } from "@/actions/supplier";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";

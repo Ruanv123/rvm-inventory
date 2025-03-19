@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { getProducts } from "@/_actions/product";
+import { getProducts } from "@/actions/product";
 import { EmptyTable } from "@/components/shared/empty-table";
 import Pagination from "@/components/shared/pagination";
 import { Badge } from "@/components/ui/badge";
