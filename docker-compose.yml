@@ -7,9 +7,9 @@ services:
     volumes:
       - progresDB:/data/postgres
     environment:
-      - POSTGRES_USER=seu_usuario
-      - POSTGRES_PASSWORD=sua_senha
-      - POSTGRES_DB=seu_banco_de_dados
+      - POSTGRES_USER=rvmuser
+      - POSTGRES_PASSWORD=rvmpassword
+      - POSTGRES_DB=inventory
 
 volumes:
   progresDB:

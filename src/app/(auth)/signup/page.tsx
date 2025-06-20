@@ -65,6 +65,7 @@ export default function SignupPage() {
       });
     } catch (error) {
       toast.error("Registration failed");
+      form.reset();
     }
   }
 

@@ -111,7 +111,7 @@ export default function Sidebar() {
             })}
           </nav>
         </div>
-        {session?.user.role !== "ADMIN" && (
+        {/* {session?.user.role !== "ADMIN" && (
           <div className="mt-auto p-4">
             <Card x-chunk="dashboard-02-chunk-0">
               <CardHeader className="p-2 pt-0 md:p-4">
@@ -128,7 +128,7 @@ export default function Sidebar() {
               </CardContent>
             </Card>
           </div>
-        )}
+        )} */}
       </div>
     </aside>
   );

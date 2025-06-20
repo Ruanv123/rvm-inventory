@@ -26,6 +26,7 @@ export async function registerUser(data: Prisma.UserCreateInput) {
     });
   } catch (error) {
     console.log("action error", error);
+    throw new Error(error as any);
   }
 }
 
